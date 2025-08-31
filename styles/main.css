@@ -139,6 +139,50 @@ body {
   transform: scale(1.1);
 }
 
+/* Download CV按鈕樣式 */
+.download-cv-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #3a3a3a, #2a2a2a);
+  border-radius: 12px;
+  border: 1px solid #5de290;
+  color: #a9c3e9;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+.download-cv-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #5de290, #3b82f6);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 11px;
+}
+
+.download-cv-btn:hover::before {
+  opacity: 0.1;
+}
+
+.download-cv-btn:hover {
+  transform: translateY(-3px);
+  border-color: #5de290;
+  box-shadow: 0 8px 25px rgba(93, 226, 144, 0.15);
+  color: #e2f4e8;
+}
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
