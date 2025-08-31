@@ -141,15 +141,17 @@ body {
 .social-icon {
   width: 24px;
   height: 24px;
-  filter: brightness(0) saturate(100%) invert(75%) sepia(20%) saturate(500%) hue-rotate(90deg) brightness(110%) contrast(90%);
   transition: all 0.3s ease;
   position: relative;
   z-index: 1;
 }
 
 .social-link:hover .social-icon {
-  filter: brightness(0) saturate(100%) invert(85%) sepia(25%) saturate(600%) hue-rotate(90deg) brightness(120%) contrast(100%);
   transform: scale(1.1);
+}
+
+.social-link svg.social-icon {
+  color: #5de290;
 }
 
 /* Download CV按鈕樣式 */
