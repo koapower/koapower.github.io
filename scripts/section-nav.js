@@ -1,20 +1,78 @@
-// Section Navigation JavaScript
+// Section Navigation JavaScript with Dynamic Content Loading
 document.addEventListener('DOMContentLoaded', function() {
     const sectionNav = document.getElementById('sectionNav');
     const sectionLinks = document.querySelectorAll('.section-nav-link');
     const contentSections = document.querySelectorAll('.content-section');
     
     let isScrolling = false;
+    let loadedSections = new Set(); // Track loaded sections to avoid reloading
+    
+    // Content mapping for dynamic loading
+    const sectionContent = {
+        'games': 'content/games.html',
+        'tools': 'content/tools.html',
+        'osu-beatmap': 'content/osu-beatmap.html'
+    };
+    
+    // Function to load section content dynamically
+    async function loadSectionContent(sectionId) {
+        if (loadedSections.has(sectionId)) {
+            return; // Already loaded
+        }
+        
+        const section = document.getElementById(sectionId);
+        const contentContainer = section.querySelector('.content-container');
+        const contentPath = sectionContent[sectionId];
+        
+        if (!contentPath || !contentContainer) {
+            console.warn(`No content path or container found for section: ${sectionId}`);
+            return;
+        }
+        
+        try {
+            // Show loading indicator
+            contentContainer.innerHTML = `
+                <div class="loading-indicator">
+                    <div class="loading-spinner"></div>
+                    <p>Loading ${sectionId.charAt(0).toUpperCase() + sectionId.slice(1)}...</p>
+                </div>
+            `;
+            
+            const response = await fetch(contentPath);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const html = await response.text();
+            contentContainer.innerHTML = html;
+            loadedSections.add(sectionId);
+            
+            // Re-attach event listeners for newly loaded portfolio items
+            attachPortfolioItemListeners(contentContainer);
+            
+        } catch (error) {
+            console.error(`Failed to load content for ${sectionId}:`, error);
+            contentContainer.innerHTML = `
+                <div class="error-message">
+                    <p>Failed to load content. Please try again.</p>
+                    <button onclick="location.reload()" class="retry-button">Retry</button>
+                </div>
+            `;
+        }
+    }
 
     // Handle section navigation clicks
     sectionLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', async function(e) {
             e.preventDefault();
             
             const targetId = this.getAttribute('data-target');
             const targetSection = document.getElementById(targetId);
             
             if (targetSection) {
+                // Load content before switching sections
+                await loadSectionContent(targetId);
+                
                 // Update active states
                 updateActiveStates(this, targetSection);
                 
@@ -140,4 +198,40 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 100);
         }
     }
+    
+    // Function to attach portfolio item listeners (for dynamically loaded content)
+    function attachPortfolioItemListeners(container) {
+        const portfolioItems = container.querySelectorAll('.portfolio-item');
+        
+        portfolioItems.forEach(item => {
+            // Remove existing listeners to avoid duplicates
+            item.replaceWith(item.cloneNode(true));
+            const newItem = container.querySelector(`[data-project="${item.getAttribute('data-project')}"]`) || item;
+            
+            newItem.addEventListener('click', function() {
+                const projectId = this.getAttribute('data-project');
+                
+                // For now, just log the project ID and show an alert
+                console.log(`Clicked on project: ${projectId}`);
+                
+                // You can replace this with navigation to a detailed project page
+                // For example: window.location.href = `/projects/${projectId}`;
+                
+                // Temporary feedback for user
+                const projectTitle = this.querySelector('.portfolio-title').textContent;
+                alert(`Opening details for: ${projectTitle}\n\nThis feature will be implemented soon!`);
+            });
+            
+            // Add keyboard support for accessibility
+            newItem.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
+        });
+    }
+    
+    // Initialize with first section (games) content loading
+    loadSectionContent('games');
 });
