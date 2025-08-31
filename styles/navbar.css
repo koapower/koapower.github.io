@@ -4,8 +4,8 @@
   top: 0;
   left: 0;
   right: 0;
-  background-color: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
+  background-color: #1f1f1f;
+  border-bottom: 1px solid #5de290;
   z-index: 1000;
   padding: 0;
 }
@@ -22,7 +22,7 @@
 .nav-brand {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #1f2937;
+  color: #5de290;
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -37,7 +37,7 @@
 }
 
 .nav-link {
-  color: #6b7280;
+  color: #51c07b;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease;
@@ -45,7 +45,7 @@
 }
 
 .nav-link:hover {
-  color: #1f2937;
+  color: #3b82f6;
 }
 
 .nav-link::after {
