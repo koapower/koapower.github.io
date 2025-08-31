@@ -20,21 +20,75 @@ body {
 
 /* Hero區域 */
 .hero {
-  text-align: center;
-  padding: 4rem 0;
+  padding: 6rem 0 4rem 0;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.hero h1 {
-  font-size: 3rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #afda8c;
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  max-width: 1000px;
+  width: 100%;
+  align-items: center;
 }
 
-.subtitle {
+.hero-left {
+  text-align: right;
+  padding-right: 2rem;
+}
+
+.hero-right {
+  text-align: left;
+  padding-left: 2rem;
+}
+
+.greeting {
   font-size: 1.5rem;
   color: #90a18f;
   font-weight: 300;
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.name {
+  font-size: 5rem;
+  font-weight: 800;
+  margin-bottom: 0;
+  color: #5de290;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 4px rgba(93, 226, 144, 0.2);
+  animation: fadeInUp 1s ease-out;
+}
+
+.roles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.role {
+  font-size: 1.8rem;
+  color: #afda8c;
+  font-weight: 400;
+  opacity: 0.9;
+  animation: fadeInUp 1s ease-out;
+  animation-delay: 0.3s;
+  animation-fill-mode: both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* About區域 */
@@ -61,15 +115,47 @@ body {
     padding: 1rem;
   }
   
-  .hero h1 {
-    font-size: 2rem;
+  .hero {
+    padding: 4rem 0 2rem 0;
+    min-height: 50vh;
   }
   
-  .subtitle {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+  
+  .hero-left,
+  .hero-right {
+    text-align: center;
+    padding: 0;
+  }
+  
+  .greeting {
     font-size: 1.2rem;
   }
   
-  .hero {
-    padding: 2rem 0;
+  .name {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .role {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .name {
+    font-size: 2.8rem;
+  }
+  
+  .greeting {
+    font-size: 1rem;
+  }
+  
+  .role {
+    font-size: 1.2rem;
   }
 }
