@@ -15,6 +15,7 @@ class Navbar {
       document.body.insertBefore(navbarContainer.firstElementChild, document.body.firstChild);
       
       this.setupResumeLink();
+      this.setupContactLink();
       
       // 為頁面主要內容添加上邊距，避免被固定導航欄遮蓋
       this.adjustBodyPadding();
@@ -29,6 +30,14 @@ class Navbar {
     if (resumeLink) {
       resumeLink.href = 'assets/Koa_Resume.pdf';
       resumeLink.target = '_blank';
+    }
+  }
+
+  setupContactLink() {
+    const contactLink = document.getElementById('contact-link');
+    if (contactLink) {
+      contactLink.href = 'mailto:koaweng1@gmail.com';
+      contactLink.target = '_blank';
     }
   }
 
