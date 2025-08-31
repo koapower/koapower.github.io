@@ -48,7 +48,7 @@ body {
 
 .greeting {
   font-size: 1.5rem;
-  color: #90a18f;
+  color: #5de290;
   font-weight: 300;
   margin-bottom: 1rem;
   letter-spacing: 0.05em;
@@ -72,11 +72,24 @@ body {
 
 .role {
   font-size: 1.8rem;
-  color: #afda8c;
+  color: #5de290;
   font-weight: 400;
   opacity: 0.9;
   animation: fadeInUp 1s ease-out;
   animation-delay: 0.3s;
+  animation-fill-mode: both;
+}
+
+.about-text {
+  font-size: 1.2rem;
+  color: #5de290;
+  font-weight: 300;
+  line-height: 1.6;
+  margin: 1.5rem 0 0 0;
+  opacity: 0.85;
+  max-width: 450px;
+  animation: fadeInUp 1s ease-out;
+  animation-delay: 0.6s;
   animation-fill-mode: both;
 }
 
@@ -148,7 +161,7 @@ body {
   background: linear-gradient(135deg, #3a3a3a, #2a2a2a);
   border-radius: 12px;
   border: 1px solid #5de290;
-  color: #a9c3e9;
+  color: #5de290;
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 500;
@@ -248,6 +261,12 @@ body {
     font-size: 1.4rem;
   }
   
+  .about-text {
+    font-size: 0.9rem;
+    margin: 1.2rem 0 0 0;
+    max-width: none;
+  }
+  
   .social-links {
     justify-content: center;
     margin-top: 1.5rem;
@@ -265,5 +284,10 @@ body {
   
   .role {
     font-size: 1.2rem;
+  }
+  
+  .about-text {
+    font-size: 0.85rem;
+    margin: 1rem 0 0 0;
   }
 }
