@@ -54,15 +54,85 @@
         </div>
       </div>
     </section>
-
-    <!-- 之後可以添加更多section -->
-    <section class="about">
-      <h2>About Me</h2>
-      <p>歡迎來到我的Portfolio</p>
-    </section>
   </main>
+
+  <!-- Section Navigation Bar -->
+  <nav class="section-nav" id="sectionNav">
+    <div class="section-nav-container">
+      <div class="section-nav-links">
+        <a href="#games" class="section-nav-link active" data-target="games">Games</a>
+        <a href="#tools" class="section-nav-link" data-target="tools">Tools</a>
+        <a href="#osu-beatmap" class="section-nav-link" data-target="osu-beatmap">osu! Beatmap</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content Sections -->
+  <div class="content-sections">
+    <!-- Games Section -->
+    <section id="games" class="content-section active">
+      <div class="container">
+        <h2 class="content-section-title">Game Development</h2>
+        <div class="projects-grid">
+          <div class="project-card">
+            <div class="project-image">
+              <img src="assets/images/projects/game/secretcamera.webp" alt="Secret Camera Game" loading="lazy">
+              <div class="project-overlay">
+                <div class="project-tech">
+                  <span class="tech-tag">Unity</span>
+                  <span class="tech-tag">C#</span>
+                  <span class="tech-tag">Mobile</span>
+                </div>
+              </div>
+            </div>
+            <div class="project-content">
+              <h4 class="project-title">Secret Camera</h4>
+              <p class="project-description">A mobile stealth puzzle game where players use camera mechanics to solve mysteries.</p>
+              <div class="project-links">
+                <a href="#" class="project-link">View Details</a>
+                <a href="#" class="project-link">Play Demo</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section id="tools" class="content-section">
+      <div class="container">
+        <h2 class="content-section-title">Development Tools</h2>
+        <div class="projects-grid">
+          <!-- Tools content will be added here -->
+          <div class="project-card placeholder">
+            <div class="project-content">
+              <h4 class="project-title">Development Tools</h4>
+              <p class="project-description">Coming soon - Development tools and utilities I've created.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- osu! Beatmap Section -->
+    <section id="osu-beatmap" class="content-section">
+      <div class="container">
+        <h2 class="content-section-title">osu! Beatmaps</h2>
+        <div class="projects-grid">
+          <!-- osu! Beatmap content will be added here -->
+          <div class="project-card placeholder">
+            <div class="project-content">
+              <h4 class="project-title">osu! Beatmaps</h4>
+              <p class="project-description">Coming soon - osu! beatmaps I've created and ranked.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 
   <!-- JavaScript -->
   <script src="scripts/navbar.js"></script>
+  <script src="scripts/section-nav.js"></script>
 </body>
 </html>
