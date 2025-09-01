@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const contentSections = document.querySelectorAll('.content-section');
     
     let isScrolling = false;
+    let scrollTimeout = null;
     let loadedSections = new Set(); // Track loaded sections to avoid reloading
     
     // Content mapping for dynamic loading
@@ -79,15 +80,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Smooth scroll to section
                 isScrolling = true;
+                
+                // Clear any existing timeout
+                if (scrollTimeout) {
+                    clearTimeout(scrollTimeout);
+                }
+                
                 targetSection.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
                 });
                 
-                // Reset scrolling flag after animation
-                setTimeout(() => {
+                // Reset scrolling flag with a more reliable method
+                scrollTimeout = setTimeout(() => {
                     isScrolling = false;
-                }, 1000);
+                    scrollTimeout = null;
+                }, 1200); // Slightly longer timeout for safety
             }
         });
     });
@@ -96,7 +104,18 @@ document.addEventListener('DOMContentLoaded', function() {
     let ticking = false;
     
     function updateOnScroll() {
-        if (isScrolling) return; // Skip updates during programmatic scrolling
+        // More intelligent detection of programmatic scrolling
+        if (isScrolling) {
+            // Check if scroll has actually stopped by comparing recent positions
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                isScrolling = false;
+                scrollTimeout = null;
+                // Trigger one final update after programmatic scroll ends
+                requestAnimationFrame(updateOnScroll);
+            }, 150);
+            return;
+        }
         
         const navHeight = sectionNav ? sectionNav.offsetHeight : 0;
         const viewportHeight = window.innerHeight;
@@ -208,10 +227,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 targetLink.classList.add('active');
                 
                 // Scroll to section
+                isScrolling = true;
+                if (scrollTimeout) clearTimeout(scrollTimeout);
+                
                 targetSection.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
                 });
+                
+                scrollTimeout = setTimeout(() => {
+                    isScrolling = false;
+                    scrollTimeout = null;
+                }, 1200);
             }
         }
     });
@@ -229,10 +256,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 targetLink.classList.add('active');
                 
                 // Scroll to section
+                isScrolling = true;
+                if (scrollTimeout) clearTimeout(scrollTimeout);
+                
                 targetSection.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
                 });
+                
+                scrollTimeout = setTimeout(() => {
+                    isScrolling = false;
+                    scrollTimeout = null;
+                }, 1200);
             }
         }, 500); // Give time for content to load
     }
