@@ -266,13 +266,10 @@
 
 /* 專案導航 */
 .project-navigation {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 2rem;
-  margin-top: 4rem;
-  margin-bottom: 4rem;
-  padding: 2rem 0;
-  border-top: 1px solid #333;
+  margin-top: 4rem; 
+  margin-bottom: 4rem; 
+  padding: 2rem 2rem; 
+  border-top: 1px solid #333; 
 }
 
 .nav-project,
