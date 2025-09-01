@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Hardest Interview - Wei Jyun Weng (Koa)</title>
+  
+  <!-- favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/favicon/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/images/favicon/android-chrome-512x512.png">
+  <link rel="icon" href="/assets/images/favicon/favicon.ico" type="image/x-icon">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles/navbar.css">
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/project-detail.css">
+  <link rel="stylesheet" href="styles/project-list.css">
+</head>
+<body>
+  <!-- 導航欄會由JavaScript動態載入 -->
+  
+  <div class="body-wrapper">
+    <!-- Project List will be dynamically loaded here -->
+    <div id="project-list-container"></div>
+
+    <div class="main-column">
+      <!-- 主要內容區域 -->
+      <main class="project-main">
+        <div class="project-container project-detail-container">
+          
+          <!-- 返回按鈕 -->
+          <div class="project-nav">
+            <a href="index.html" class="back-link">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="back-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+              </svg>
+              Back to Portfolio
+            </a>
+          </div>
+
+          <!-- 主要圖片/影片 -->
+          <section class="project-hero-media">
+            <img src="assets/images/projects/game/thehardestinterview.webp" alt="Project Screenshot" class="project-hero-image">
+            <p class="media-caption">Due to the adult content and NDA, this is the most appropriate image I found as a title image.</p>
+          </section>
+
+          <!-- 專案標題區域 -->
+          <header class="project-header">
+            <h1 class="project-title">The Hardest Interview</h1>
+            <p class="project-subtitle">Collaborate project with Model Media</p>
+            
+            <div class="project-meta">
+              <div class="project-tags">
+                <span class="tag">Unity</span>
+                <span class="tag">C#</span>
+                <span class="tag">Collab</span>
+              </div>
+              <div class="project-links">
+                <a href="https://www.hardestinterview.com/" class="project-link" target="_blank">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="link-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+                  </svg>
+                  Official Website (Adult Content Warning)
+                </a>
+
+                <a href="https://mon4.msb4mc.com/game/detail?id=4" class="project-link" target="_blank">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="link-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+                  </svg>
+                  Shop Website (Adult Content Warning)
+                </a>
+              </div>
+            </div>
+          </header>
+
+          <!-- 專案內容 -->
+          <article class="project-content">
+
+            <!-- 專案概述 -->
+            <section class="project-section">
+              <h2>Overview</h2>
+              <p>We collaborated with a Taiwanese adult video company: "Model Media", and delivered the game as their first step towards the game industry.</p>
+              <p>The communication between two companies from different industries was a great experience to learn from a different perspective.</p>
+            </section>
+
+            <!-- 技術棧 -->
+            <section class="project-section">
+              <h2>Technologies Used</h2>
+              <ul>
+                <li><strong>Unity</strong> - Game engine for development</li>
+                <li><strong>C#</strong> - Primary programming language</li>
+                <li><strong>FFmpeg</strong> - Tool to deal with hundreds of video assets</li>
+                <li><strong>InnoSetup</strong> - Tool to pack the game</li>
+              </ul>
+            </section>
+
+            <!-- 主要特色 -->
+            <section class="project-section">
+              <h2>Key Features</h2>
+              <div class="feature-list">
+                <div class="feature-item">
+                  <h3>Story tree</h3>
+                  <p>The main story follows a tree structure to progress.</p>
+                </div>
+                <div class="feature-item">
+                  <h3>Massive video processing streamline</h3>
+                  <p>The game includes a huge amount of videos to process from our partner.</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- 開發過程 -->
+            <section class="project-section">
+              <h2>Development Process</h2>
+              <p>Despite several major design changes, I spent considerable time communicating with our partner's executive for feasible solutions.</p>
+              <p>The project was developed before Gen AI came out. I designed and developed several tools from scratch to fulfill the need to process the significant amount of video assets from our partner. Also for debugging purposes.</p>
+              
+              <div class="process-images">
+                <img src="/assets/images/projects/game/thi-1.png" alt="Development Process 1" class="process-image">
+                <img src="/assets/images/projects/game/thi-2.png" alt="Development Process 2" class="process-image">
+              </div>
+            </section>
+
+            <!-- 挑戰與解決方案 -->
+            <section class="project-section">
+              <h2>Challenges & Solutions</h2>
+              <div class="challenge-item">
+                <h3>Challenge 1: WindowsVideoMedia errors in some computers</h3>
+                <p>We encountered some problems that some Windows computers were having trouble playing H264 videos.</p>
+                <p><strong>Solution:</strong> Re-processed the videos with specific color space information.</p>
+              </div>
+              
+              <div class="challenge-item">
+                <h3>Challenge 2: Problems with some AMD graphic cards</h3>
+                <p>Some AMD computers were facing some trouble playing the game.</p>
+                <p><strong>Solution:</strong> Switched the project's rendering pipeline to Vulkan.</p>
+              </div>
+
+              <div class="challenge-item">
+                <h3>Challenge 3: Emergency changes right before release date</h3>
+                <p>Feedback on the UI required urgent changes under a tight schedule.</p>
+                <p><strong>Solution:</strong> Discussed with our partner to reduce unnecessary workload. Coordinatied the team to deliever the changes on time.</p>
+              </div>
+            </section>
+
+            <!-- 學習成果 -->
+            <section class="project-section">
+              <h2>What I Learned</h2>
+              <ul>
+                <li>Usage of FFmpeg</li>
+                <li>Unity videoplayer is relying on WMF</li>
+                <li>More traditional way to install a game by utilizing Innosetup</li>
+                <li>Personnel changes can postpone the development timeline significantly</li>
+                <li>Film industry working culture</li>
+              </ul>
+            </section>
+
+          </article>
+
+          <!-- 導航到其他專案 -->
+          <nav class="project-navigation">
+            <a href="#" class="nav-project prev">
+              <span class="nav-label">Previous Project</span>
+              <span class="nav-title">Previous Project Name</span>
+            </a>
+            <a href="index.html" class="nav-home">
+              <span class="nav-label">Back to</span>
+              <span class="nav-title">Portfolio</span>
+            </a>
+            <a href="#" class="nav-project next">
+              <span class="nav-label">Next Project</span>
+              <span class="nav-title">Next Project Name</span>
+            </a>
+          </nav>
+
+        </div>
+      </main>
+    </div> <!-- end .main-column -->
+  </div> <!-- end .body-wrapper -->
+
+  <!-- JavaScript -->
+  <script src="scripts/navbar.js"></script>
+  <script type="module" src="scripts/project-list.js"></script>
+  <script type="module" src="scripts/BackToTop.js"></script>
+</body>
+</html>
