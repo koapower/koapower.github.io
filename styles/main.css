@@ -306,7 +306,8 @@ body {
 /* Portfolio Image */
 .portfolio-image {
   position: relative;
-  height: 200px;
+  height: 250px;
+  top: -20px;
   overflow: hidden;
 }
 
@@ -359,6 +360,29 @@ body {
   font-size: 0.8rem;
   font-weight: 500;
   border: 1px solid rgba(93, 226, 144, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+/* osu! Beatmap Status Tags */
+.ranked-tag {
+  background: rgba(72, 187, 120, 0.2);
+  color: #5be294;
+  padding: 0.3rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid rgba(72, 187, 120, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.loved-tag {
+  background: rgba(237, 100, 166, 0.2);
+  color: #ed64a6;
+  padding: 0.3rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid rgba(237, 100, 166, 0.3);
   backdrop-filter: blur(10px);
 }
 
