@@ -103,22 +103,6 @@
   <!-- JavaScript -->
   <script src="scripts/navbar.js"></script>
   <script type="module" src="scripts/section-nav.js"></script>
-  <script type="module">
-    import { initBackToTop } from './scripts/BackToTop.js';
-    
-    // 初始化 Back to Top 按鈕
-    document.addEventListener('DOMContentLoaded', function() {
-      const backToTop = initBackToTop({
-        showThreshold: 200,
-        buttonText: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 24px; height: 24px;">
-          <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
-        </svg>`,
-        position: {
-          bottom: '30px',
-          right: '30px'
-        }
-      });
-    });
-  </script>
+  <script type="module" src="scripts/BackToTop.js"></script>
 </body>
 </html>

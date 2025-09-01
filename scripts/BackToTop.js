@@ -255,3 +255,18 @@ if (typeof window !== 'undefined') {
     window.BackToTop = BackToTop;
     window.initBackToTop = initBackToTop;
 }
+
+// --- Self-initialization for this specific project ---
+// This makes the script "plug-and-play" by simply including it.
+document.addEventListener('DOMContentLoaded', () => {
+    initBackToTop({
+        showThreshold: 200,
+        buttonText: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 24px; height: 24px;">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+        </svg>`,
+        position: {
+          bottom: '30px',
+          right: '30px'
+        }
+      });
+});
