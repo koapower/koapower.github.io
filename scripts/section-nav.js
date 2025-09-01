@@ -70,20 +70,18 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetSection = document.getElementById(targetId);
             
             if (targetSection) {
-                // Load content before switching sections
+                // Load content if not already loaded
                 await loadSectionContent(targetId);
                 
-                // Update active states
-                updateActiveStates(this, targetSection);
+                // Update active nav link
+                sectionLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
                 
                 // Smooth scroll to section
-                const sectionNavHeight = sectionNav.offsetHeight;
-                const targetPosition = targetSection.offsetTop - sectionNavHeight;
-                
                 isScrolling = true;
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
                 });
                 
                 // Reset scrolling flag after animation
@@ -100,31 +98,68 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateOnScroll() {
         if (isScrolling) return; // Skip updates during programmatic scrolling
         
-        const scrollPosition = window.scrollY + sectionNav.offsetHeight + 100; // Add offset for better detection
-        let currentSection = null;
+        const navHeight = sectionNav ? sectionNav.offsetHeight : 0;
+        const viewportHeight = window.innerHeight;
+        const scrollY = window.scrollY;
         
-        // Find the current section based on scroll position
+        let currentSection = null;
+        let maxVisibleArea = 0;
+        
+        // Find the section with the most visible area in the viewport
         contentSections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionBottom = sectionTop + section.offsetHeight;
+            const rect = section.getBoundingClientRect();
+            const sectionTop = rect.top;
+            const sectionBottom = rect.bottom;
+            const sectionHeight = rect.height;
             
-            if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+            // Calculate visible area of this section
+            const visibleTop = Math.max(sectionTop, navHeight);
+            const visibleBottom = Math.min(sectionBottom, viewportHeight);
+            const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+            
+            // Calculate visibility percentage
+            const visibilityRatio = visibleHeight / sectionHeight;
+            
+            // Use this section if it has more visible area (with minimum threshold)
+            if (visibilityRatio > 0.3 && visibleHeight > maxVisibleArea) {
+                maxVisibleArea = visibleHeight;
                 currentSection = section;
             }
         });
         
-        // Update active states if we found a current section
+        // Fallback: if no section meets the threshold, use the one closest to center
+        if (!currentSection) {
+            const viewportCenter = navHeight + (viewportHeight - navHeight) / 2;
+            let minDistance = Infinity;
+            
+            contentSections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                const sectionCenter = rect.top + rect.height / 2;
+                const distance = Math.abs(sectionCenter - viewportCenter);
+                
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    currentSection = section;
+                }
+            });
+        }
+        
+        // Update active navigation link
         if (currentSection) {
             const currentSectionId = currentSection.id;
             const correspondingLink = document.querySelector(`[data-target="${currentSectionId}"]`);
             
             if (correspondingLink && !correspondingLink.classList.contains('active')) {
-                updateActiveStates(correspondingLink, currentSection);
+                // Remove active class from all links
+                sectionLinks.forEach(link => link.classList.remove('active'));
+                // Add active class to current link
+                correspondingLink.classList.add('active');
             }
         }
         
-        // Add scrolled class to nav for styling
-        if (window.scrollY > 100) {
+        // Add scrolled class to nav for styling (dynamic threshold)
+        const scrollThreshold = Math.min(100, viewportHeight * 0.1);
+        if (scrollY > scrollThreshold) {
             sectionNav.classList.add('scrolled');
         } else {
             sectionNav.classList.remove('scrolled');
@@ -143,27 +178,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // Listen to scroll events
     window.addEventListener('scroll', requestTick);
     
-    // Update active states function
-    function updateActiveStates(activeLink, activeSection) {
-        // Update navigation links
-        sectionLinks.forEach(link => link.classList.remove('active'));
-        activeLink.classList.add('active');
+    // Initialize - load all sections and set first link as active
+    async function initializeSections() {
+        // Load all section content
+        const sectionIds = ['games', 'tools', 'osu-beatmap'];
+        for (const sectionId of sectionIds) {
+            await loadSectionContent(sectionId);
+        }
         
-        // Update content sections with fade effect
-        contentSections.forEach(section => {
-            section.classList.remove('active');
-        });
-        
-        // Add a small delay for smooth transition
-        setTimeout(() => {
-            activeSection.classList.add('active');
-        }, 50);
+        // Set first link as active initially
+        if (sectionLinks.length > 0) {
+            sectionLinks[0].classList.add('active');
+        }
     }
     
-    // Initialize with first section active
-    if (sectionLinks.length > 0 && contentSections.length > 0) {
-        updateActiveStates(sectionLinks[0], contentSections[0]);
-    }
+    // Initialize sections
+    initializeSections();
     
     // Handle browser back/forward navigation
     window.addEventListener('hashchange', function() {
@@ -173,7 +203,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetLink = document.querySelector(`[data-target="${hash}"]`);
             
             if (targetSection && targetLink) {
-                updateActiveStates(targetLink, targetSection);
+                // Update active link
+                sectionLinks.forEach(link => link.classList.remove('active'));
+                targetLink.classList.add('active');
+                
+                // Scroll to section
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
             }
         }
     });
@@ -181,22 +219,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check for initial hash on page load
     const initialHash = window.location.hash.substring(1);
     if (initialHash) {
-        const targetSection = document.getElementById(initialHash);
-        const targetLink = document.querySelector(`[data-target="${initialHash}"]`);
-        
-        if (targetSection && targetLink) {
-            updateActiveStates(targetLink, targetSection);
+        setTimeout(() => {
+            const targetSection = document.getElementById(initialHash);
+            const targetLink = document.querySelector(`[data-target="${initialHash}"]`);
             
-            // Scroll to the section after a short delay
-            setTimeout(() => {
-                const sectionNavHeight = sectionNav.offsetHeight;
-                const targetPosition = targetSection.offsetTop - sectionNavHeight;
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
+            if (targetSection && targetLink) {
+                // Update active link
+                sectionLinks.forEach(link => link.classList.remove('active'));
+                targetLink.classList.add('active');
+                
+                // Scroll to section
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
                 });
-            }, 100);
-        }
+            }
+        }, 500); // Give time for content to load
     }
     
     // Function to attach portfolio item listeners (for dynamically loaded content)
@@ -232,6 +270,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Initialize with first section (games) content loading
-    loadSectionContent('games');
 });
