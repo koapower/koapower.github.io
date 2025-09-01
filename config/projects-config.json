@@ -6,24 +6,24 @@
         { "name": "The Hardest Interview", "url": "projects/games/the-hardest-interview.html" },
         { "name": "Secret Camera", "url": "project-detail.html?project=secretcamera" },
         { "name": "Panzer Knights", "url": "project-detail.html?project=panzer-knights" },
-        { "name": "To Village Mato", "url": "project-detail.html?project=To-Village-Mato" },
         { "name": "Augustinus", "url": "project-detail.html?project=augustinus" }
       ]
     },
     {
       "name": "Tools",
       "projects": [
-        { "name": "KoaFish", "url": "project-detail.html?project=koafish" }
+        { "name": "GoogleSheet Bulk Downloader", "url": "project-detail.html?project=koafish" },
+        { "name": "koaFish Twitchbot", "url": "project-detail.html?project=koafish" }
       ]
     },
     {
       "name": "osu! Beatmaps",
       "projects": [
-        { "name": "Adrenaline", "url": "project-detail.html?project=adrenaline" },
-        { "name": "BEI-JING", "url": "project-detail.html?project=beijing" },
-        { "name": "Der Wald", "url": "project-detail.html?project=derwald" },
-        { "name": "First of the Year", "url": "project-detail.html?project=firstoftheyear" },
-        { "name": "Xmas-Kyoumi", "url": "project-detail.html?project=xmaskyoumi" }
+        { "name": "All Stars - Beijing Welcomes You", "url": "project-detail.html?project=beijing" },
+        { "name": "Camellia feat. Nanahira – I don't care about Christmas though", "url": "project-detail.html?project=xmaskyoumi" },
+        { "name": "Skrillex – First Of The Year (Equinox) (Shirakami Fubuki Cover) [Koa%wer]", "url": "project-detail.html?project=firstoftheyear" },
+        { "name": "Trysail – adrenaline!!!", "url": "project-detail.html?project=adrenaline" },
+        { "name": "Erehamonika remixed by kors k - Der Wald [Koa%wer]", "url": "project-detail.html?project=derwald" }
       ]
     }
   ]
