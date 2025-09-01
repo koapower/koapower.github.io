@@ -1,0 +1,30 @@
+{
+  "categories": [
+    {
+      "name": "Games",
+      "projects": [
+        { "name": "The Hardest Interview", "url": "project-detail.html?project=thehardestinterview" },
+        { "name": "Secret Camera", "url": "project-detail.html?project=secretcamera" },
+        { "name": "Panzer Knights", "url": "project-detail.html?project=panzer-knights" },
+        { "name": "To Village Mato", "url": "project-detail.html?project=To-Village-Mato" },
+        { "name": "Augustinus", "url": "project-detail.html?project=augustinus" }
+      ]
+    },
+    {
+      "name": "Tools",
+      "projects": [
+        { "name": "KoaFish", "url": "project-detail.html?project=koafish" }
+      ]
+    },
+    {
+      "name": "osu! Beatmaps",
+      "projects": [
+        { "name": "Adrenaline", "url": "project-detail.html?project=adrenaline" },
+        { "name": "BEI-JING", "url": "project-detail.html?project=beijing" },
+        { "name": "Der Wald", "url": "project-detail.html?project=derwald" },
+        { "name": "First of the Year", "url": "project-detail.html?project=firstoftheyear" },
+        { "name": "Xmas-Kyoumi", "url": "project-detail.html?project=xmaskyoumi" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+/* Layout styles for the project list and main content */
+.body-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 0 2rem;
+}
+
+.main-column {
+    flex-grow: 1;
+    max-width: 1200px;
+}
+
+/* Remove margin from the main container when it's inside the body-wrapper */
+.body-wrapper > .main-column > .project-detail-container {
+    margin: 0;
+}
+
+:root {
+    --project-list-width: 280px;
+}
+
+.project-list-nav {
+    position: sticky;
+    top: 80px;
+    width: var(--project-list-width);
+    max-height: calc(100vh - 100px);
+    background: rgba(26, 29, 41, 0.9);
+    backdrop-filter: blur(10px);
+    border: 1px solid #3a3d4a;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    overflow-y: auto;
+    z-index: 999;
+    transition: all 0.3s ease;
+}
+
+.project-list-nav h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #5de290;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #3a3d4a;
+}
+
+.project-list-nav h2:first-of-type {
+    margin-top: 0;
+}
+
+.project-list-nav ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.project-list-nav li {
+    margin-bottom: 0.25rem;
+}
+
+.project-list-nav a {
+    text-decoration: none;
+    color: #ffffff;
+    display: block;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.project-list-nav a:hover {
+    background-color: rgba(93, 226, 144, 0.1);
+    color: #5de290;
+    transform: translateX(5px);
+}
+
+@media (max-width: 1400px) {
+    .project-list-nav {
+        display: none;
+    }
+}
