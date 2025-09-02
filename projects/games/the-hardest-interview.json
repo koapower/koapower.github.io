@@ -1,0 +1,118 @@
+{
+  "id": "the-hardest-interview",
+  "category": "games",
+  "title": "The Hardest Interview",
+  "subtitle": "Collaborate project with Model Media",
+  "heroImage": {
+    "src": "assets/images/projects/game/thehardestinterview.webp",
+    "alt": "Project Screenshot",
+    "caption": "Due to the adult content and NDA, this is the most appropriate image I found as a title image."
+  },
+  "tags": ["Unity", "C#", "Collab"],
+  "links": [
+    {
+      "title": "Official Website (Adult Content Warning)",
+      "url": "https://www.hardestinterview.com/"
+    },
+    {
+      "title": "Shop Website (Adult Content Warning)",
+      "url": "https://mon4.msb4mc.com/game/detail?id=4"
+    }
+  ],
+  "sections": [
+    {
+      "type": "overview",
+      "title": "Overview",
+      "content": [
+        "We collaborated with a Taiwanese adult video company: \"Model Media\", and delivered the game as their first step towards the game industry.",
+        "The communication between two companies from different industries was a great experience to learn from a different perspective."
+      ]
+    },
+    {
+      "type": "technologies",
+      "title": "Technologies Used",
+      "items": [
+        {
+          "name": "Unity",
+          "description": "Game engine for development"
+        },
+        {
+          "name": "C#",
+          "description": "Primary programming language"
+        },
+        {
+          "name": "FFmpeg",
+          "description": "Tool to deal with hundreds of video assets"
+        },
+        {
+          "name": "InnoSetup",
+          "description": "Tool to pack the game"
+        }
+      ]
+    },
+    {
+      "type": "features",
+      "title": "Key Features",
+      "features": [
+        {
+          "name": "Story tree",
+          "description": "The main story follows a tree structure to progress."
+        },
+        {
+          "name": "Massive video processing streamline",
+          "description": "The game includes a huge amount of videos to process from our partner."
+        }
+      ]
+    },
+    {
+      "type": "development",
+      "title": "Development Process",
+      "content": [
+        "Despite several major design changes, I spent considerable time communicating with our partner's executive for feasible solutions.",
+        "The project was developed before Gen AI came out. I designed and developed several tools from scratch to fulfill the need to process the significant amount of video assets from our partner. Also for debugging purposes."
+      ],
+      "images": [
+        {
+          "src": "/assets/images/projects/game/thi-1.png",
+          "alt": "Development Process 1"
+        },
+        {
+          "src": "/assets/images/projects/game/thi-2.png",
+          "alt": "Development Process 2"
+        }
+      ]
+    },
+    {
+      "type": "challenges",
+      "title": "Challenges & Solutions",
+      "challenges": [
+        {
+          "title": "Challenge 1: WindowsVideoMedia errors in some computers",
+          "problem": "We encountered some problems that some Windows computers were having trouble playing H264 videos.",
+          "solution": "Re-processed the videos with specific color space information."
+        },
+        {
+          "title": "Challenge 2: Problems with some AMD graphic cards",
+          "problem": "Some AMD computers were facing some trouble playing the game.",
+          "solution": "Switched the project's rendering pipeline to Vulkan."
+        },
+        {
+          "title": "Challenge 3: Emergency changes right before release date",
+          "problem": "Feedback on the UI required urgent changes under a tight schedule.",
+          "solution": "Discussed with our partner to reduce unnecessary workload. Coordinatied the team to deliever the changes on time."
+        }
+      ]
+    },
+    {
+      "type": "learning",
+      "title": "What I Learned",
+      "items": [
+        "Usage of FFmpeg",
+        "Unity videoplayer is relying on WMF",
+        "More traditional way to install a game by utilizing Innosetup",
+        "Personnel changes can postpone the development timeline significantly",
+        "Film industry working culture"
+      ]
+    }
+  ]
+}

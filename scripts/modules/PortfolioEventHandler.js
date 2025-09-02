@@ -44,30 +44,10 @@ export class PortfolioEventHandler {
     }
 
     showProjectDetails(item, projectId) {
-        const projectTitle = item.querySelector('.portfolio-title')?.textContent || 'Unknown Project';
-        
-        // 临时的项目详情显示 - 可以后续扩展为模态窗口或页面跳转
-        this.showTemporaryAlert(projectTitle);
-        
-        // 可以在此处添加更复杂的项目详情展示逻辑
-        // 例如: this.openProjectModal(projectId);
-        // 或者: window.location.href = `/projects/${projectId}`;
+        // 跳轉到動態專案詳細頁面
+        window.location.href = `project-detail.html?project=${projectId}`;
     }
 
-    showTemporaryAlert(projectTitle) {
-        alert(`Opening details for: ${projectTitle}\n\nThis feature will be implemented soon!`);
-    }
-
-    // 未来可以扩展的方法
-    openProjectModal(projectId) {
-        // 模态窗口逻辑
-        console.log(`Opening modal for project: ${projectId}`);
-    }
-
-    navigateToProjectPage(projectId) {
-        // 页面跳转逻辑
-        window.location.href = `/projects/${projectId}`;
-    }
 
     // 公共方法供外部调用
     attachToContainer(container) {

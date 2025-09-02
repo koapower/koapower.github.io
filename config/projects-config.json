@@ -3,8 +3,8 @@
     {
       "name": "Games",
       "projects": [
-        { "name": "The Hardest Interview", "url": "projects/games/the-hardest-interview.html" },
-        { "name": "Secret Camera", "url": "project-detail.html?project=secretcamera" },
+        { "name": "The Hardest Interview", "url": "project-detail.html?project=the-hardest-interview" },
+        { "name": "Secret Camera", "url": "project-detail.html?project=secret-camera" },
         { "name": "Panzer Knights", "url": "project-detail.html?project=panzer-knights" },
         { "name": "Augustinus", "url": "project-detail.html?project=augustinus" }
       ]
