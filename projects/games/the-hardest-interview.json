@@ -8,7 +8,7 @@
     "alt": "Project Screenshot",
     "caption": "Due to the adult content and NDA, this is the most appropriate image I found as a title image."
   },
-  "tags": ["Unity", "C#", "Collab"],
+  "tags": ["Unity", "C#", "FFmpeg", "InnoSetup"],
   "links": [
     {
       "title": "Official Website (Adult Content Warning)",
@@ -26,28 +26,6 @@
       "content": [
         "We collaborated with a Taiwanese adult video company: \"Model Media\", and delivered the game as their first step towards the game industry.",
         "The communication between two companies from different industries was a great experience to learn from a different perspective."
-      ]
-    },
-    {
-      "type": "technologies",
-      "title": "Technologies Used",
-      "items": [
-        {
-          "name": "Unity",
-          "description": "Game engine for development"
-        },
-        {
-          "name": "C#",
-          "description": "Primary programming language"
-        },
-        {
-          "name": "FFmpeg",
-          "description": "Tool to deal with hundreds of video assets"
-        },
-        {
-          "name": "InnoSetup",
-          "description": "Tool to pack the game"
-        }
       ]
     },
     {
