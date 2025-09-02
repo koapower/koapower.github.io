@@ -1,0 +1,79 @@
+{
+  "id": "panzer-knight",
+  "category": "games",
+  "title": "Panzer Knight",
+  "subtitle": "A tank shooting game where you play as a German Tank Commander in Europe circa WWII.",
+  "heroImage": {
+    "src": "assets/images/projects/game/panzer-knights-title.webp",
+    "alt": "Project Screenshot",
+    "caption": "gameplay clip"
+  },
+  "tags": ["Unity", "C#", "Jenkins"],
+  "links": [
+    {
+      "title": "Steam",
+      "url": "https://store.steampowered.com/app/1416230/Panzer_Knights/"
+    }
+  ],
+  "sections": [
+    {
+      "type": "overview",
+      "title": "Overview",
+      "content": [
+        "My main role was UI engineer in this project. I also contributed in implementing Steam SDK, dealing with performance issues. It was a great experience to work with a bigger team."
+      ]
+    },
+    {
+      "type": "features",
+      "title": "Key Features",
+      "features": [
+        {
+          "name": "UI engineering",
+          "description": "I made the UI function correctly."
+        },
+        {
+          "name": "Steam Unity SDK",
+          "description": "Implemented the Steam SDK for the game."
+        }
+      ]
+    },
+    {
+      "type": "development",
+      "title": "Development Process",
+      "content": [
+        "I joined the project halfway. The original gameplay was trying to simulate the crew inside the tank, each soldier carrying out their own duties. The game changed to a more straight forward tank shooting game after some internal testplay feedback."        
+      ],
+      "images": [
+        {
+          "src": "/assets/images/projects/game/panzer-knights-1.webp",
+          "alt": "Development Process 1"
+        },
+        {
+          "src": "/assets/images/projects/game/panzer-knights-2.webp",
+          "alt": "Development Process 2"
+        }
+      ]
+    },
+    {
+      "type": "challenges",
+      "title": "Challenges & Solutions",
+      "challenges": [
+        {
+          "title": "Challenge 1: Optimizing preformance",
+          "problem": "Frame rate dropped significantly during intense encounters.",
+          "solution": "Unity profiler was crucial to know where the problem was, one of the most interesting solution was sending the tank track simulation to gpu by a shader. Loading the map by chunk was another solution."
+        }
+      ]
+    },
+    {
+      "type": "learning",
+      "title": "What I Learned",
+      "items": [
+        "Unity UI edit and sorting techniques",
+        "Steam Unity workflow",
+        "Building pipeline using Jenkins by scripts",
+        "Unity profiler is useful and not useful at the same time"
+      ]
+    }
+  ]
+}
