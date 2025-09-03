@@ -1,0 +1,85 @@
+{
+  "id": "augustinus",
+  "category": "games",
+  "title": "Augustinus",
+  "subtitle": "An escape game where you have to escape from the grounds of an evil manor.",
+  "heroImage": {
+    "src": "assets/images/projects/game/augustinus-title.webp",
+    "alt": "Project Screenshot",
+    "caption": "Watch out! don't get caught by those heretics..."
+  },
+  "tags": ["Unity", "C#", "Git"],
+  "links": [
+    {
+      "title": "itch.io",
+      "url": "https://koapower.itch.io/augustinus"
+    }
+  ],
+  "sections": [
+    {
+      "type": "overview",
+      "title": "Overview",
+      "content": [
+        "This was a three-people team project, created as the final project for the Unity engineer training program at the Institute for Information Industry."
+      ]
+    },
+    {
+      "type": "features",
+      "title": "Key Features",
+      "features": [
+        {
+          "name": "Player interactions with objects",
+          "description": "The main gameplay was all about the player escaping(moving), interacting with boxes, objectives."
+        },
+        {
+          "name": "X-ray shader",
+          "description": "Player can activate see-through effects ingame."
+        }
+      ]
+    },
+    {
+      "type": "development",
+      "title": "Development Process",
+      "content": [
+        "Through discussion with teammates, we decided to mimic exist games to finalize the development direction and speed up the process. I was responsible for the main gameplay and systems.",
+        "Given that we were all beginners, the development process was a mess, but we made sure to finish the most important part of the game, and discussed the solution with the teachers. As a result, we delivered a fairly well completed game to showcase."
+      ],
+      "images": [
+        {
+          "src": "/assets/images/projects/game/augustinus-1.webp",
+          "alt": "Development Process 1"
+        },
+        {
+          "src": "/assets/images/projects/game/augustinus-2.webp",
+          "alt": "Development Process 2"
+        }
+      ]
+    },
+    {
+      "type": "challenges",
+      "title": "Challenges & Solutions",
+      "challenges": [
+        {
+          "title": "Challenge 1: Learning programming and the tools",
+          "problem": "We were under a very intense schedule to learn programming and Unity.",
+          "solution": "I spent extra time practicing and searched for the solutions from the internet."
+        },
+        {
+          "title": "Challenge 2: Team member sometimes break the game",
+          "problem": "With lesser knowledge for development, sometimes the game will encounter several errors after a simple git pull.",
+          "solution": "I discussed the issue with the member, I helped eliminating the errors right after his commit, making sure the workflow was smooth."
+        }
+      ]
+    },
+    {
+      "type": "learning",
+      "title": "What I Learned",
+      "items": [
+        "Unity, C#, Git",
+        "Game math, graphics, shaders",
+        "Most of the problems can be solved by just searching on the internet",
+        "How to make a game!"
+      ]
+    }
+  ]
+}
