@@ -328,6 +328,38 @@
   max-width: 100%;
 }
 
+/* 圖片gallery區域 */
+.image-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  margin-top: 2rem;
+}
+
+.image-item {
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  border: 1px solid #333;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.gallery-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+}
+
+.image-caption {
+  margin-top: 1rem;
+  margin-bottom: 0;
+  font-size: 0.95rem;
+  color: #b0b0b0;
+  text-align: center;
+  font-style: italic;
+}
+
 /* 專案導航 */
 .project-navigation {
   margin-top: 4rem; 

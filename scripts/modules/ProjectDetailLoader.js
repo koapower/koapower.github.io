@@ -246,6 +246,9 @@ class ProjectDetailLoader {
       case 'videos':
         return this.generateVideosSection(title, videos);
       
+      case 'images':
+        return this.generateImagesSection(title, images);
+      
       default:
         return this.generateDefaultSection(title, content);
     }
@@ -369,6 +372,32 @@ class ProjectDetailLoader {
         <ul>
           ${listItems}
         </ul>
+      </section>
+    `;
+  }
+
+  /**
+   * 生成圖片區域
+   */
+  generateImagesSection(title, images) {
+    if (!images || images.length === 0) return '';
+
+    const imageElements = images.map(image => `
+      <div class="image-item">
+        <img 
+          src="${image.src}" 
+          alt="${image.alt || 'Project image'}"
+          class="gallery-image">
+        ${image.caption ? `<p class="image-caption">${image.caption}</p>` : ''}
+      </div>
+    `).join('');
+
+    return `
+      <section class="project-section">
+        <h2>${title}</h2>
+        <div class="image-gallery">
+          ${imageElements}
+        </div>
       </section>
     `;
   }
