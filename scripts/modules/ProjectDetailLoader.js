@@ -222,7 +222,7 @@ class ProjectDetailLoader {
    * @returns {string} HTML字串
    */
   generateSection(section) {
-    const { type, title, content, items, features, challenges, images } = section;
+    const { type, title, content, items, features, challenges, images, videos } = section;
 
     switch (type) {
       case 'overview':
@@ -242,6 +242,9 @@ class ProjectDetailLoader {
       
       case 'learning':
         return this.generateLearningSection(title, items);
+      
+      case 'videos':
+        return this.generateVideosSection(title, videos);
       
       default:
         return this.generateDefaultSection(title, content);
@@ -368,6 +371,67 @@ class ProjectDetailLoader {
         </ul>
       </section>
     `;
+  }
+
+  /**
+   * 生成影片區域
+   * 可選size: "small" - 480px, "medium" - 640px, "large" - 854px, "full-width"
+   */
+  generateVideosSection(title, videos) {
+    if (!videos || videos.length === 0) return '';
+
+    const videoElements = videos.map(video => {
+      const embedUrl = this.convertToEmbedUrl(video.url);
+      const sizeClass = video.size ? ` ${video.size}` : ' medium'; // 預設為medium尺寸
+      return `
+        <div class="video-item">
+          <div class="video-wrapper${sizeClass}">
+            <iframe 
+              src="${embedUrl}" 
+              frameborder="0" 
+              allowfullscreen
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              class="video-iframe">
+            </iframe>
+          </div>
+          ${video.comment ? `<p class="video-comment">${video.comment}</p>` : ''}
+        </div>
+      `;
+    }).join('');
+
+    return `
+      <section class="project-section">
+        <h2>${title}</h2>
+        <div class="video-list">
+          ${videoElements}
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * 轉換YouTube URL為embed URL
+   * @param {string} url - YouTube URL
+   * @returns {string} Embed URL
+   */
+  convertToEmbedUrl(url) {
+    if (!url) return '';
+
+    // 處理各種YouTube URL格式
+    const youtubeRegex = /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/;
+    const match = url.match(youtubeRegex);
+    
+    if (match && match[1]) {
+      return `https://www.youtube.com/embed/${match[1]}`;
+    }
+    
+    // 如果已經是embed URL，直接返回
+    if (url.includes('youtube.com/embed/')) {
+      return url;
+    }
+    
+    // 如果不是YouTube URL，返回原URL（可能是其他影片平台）
+    return url;
   }
 
   /**

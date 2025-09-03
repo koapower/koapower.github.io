@@ -264,6 +264,70 @@
   color: #ffffff;
 }
 
+/* 影片區域 */
+.video-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  margin-top: 2rem;
+}
+
+.video-item {
+  background-color: #1a1a1a;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #333;
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: #000;
+}
+
+.video-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 8px;
+}
+
+.video-comment {
+  margin-top: 1rem;
+  margin-bottom: 0;
+  font-size: 1rem;
+  color: #b0b0b0;
+  font-style: italic;
+  text-align: center;
+}
+
+/* 影片尺寸變體 */
+.video-wrapper.small {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.video-wrapper.medium {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.video-wrapper.large {
+  max-width: 854px;
+  margin: 0 auto;
+}
+
+.video-wrapper.full-width {
+  max-width: 100%;
+}
+
 /* 專案導航 */
 .project-navigation {
   margin-top: 4rem; 
