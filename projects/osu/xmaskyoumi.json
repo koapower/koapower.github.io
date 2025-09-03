@@ -25,6 +25,22 @@
       ]
     },
     {
+      "type": "images",
+      "title": "Screenshots",
+      "images": [
+        {
+          "src": "/assets/images/projects/osu/xmaskyoumi-ss1.jpg",
+          "alt": "screenshot",
+          "caption": "Gingerbread Man"
+        },
+        {
+          "src": "/assets/images/projects/osu/xmaskyoumi-ss2.jpg",
+          "alt": "screenshot",
+          "caption": ">w<"
+        }
+      ]
+    },
+    {
       "type": "features",
       "title": "Status",
       "features": [

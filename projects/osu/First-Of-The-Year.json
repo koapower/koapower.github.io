@@ -8,7 +8,7 @@
     "alt": "Project Screenshot",
     "caption": "Call 911 now"
   },
-  "tags": ["Accelerate Sliders"],
+  "tags": ["Accelerate Sliders", "Collab"],
   "links": [
     {
       "title": "osu! Beatmap",
@@ -37,6 +37,22 @@
       "content": [
         "I wanted to utilize Sliderator since it was new and interesting at the time. The 911 slider sure is one of the things that a human couldn't even bother to create by hand, so my goal is achieved.",
         "Besides experimenting, I wanted players to actually be able to play instead of just showcasing fancy sliders."
+      ]
+    },
+    {
+      "type": "images",
+      "title": "Screenshots",
+      "images": [
+        {
+          "src": "/assets/images/projects/osu/firstoftheyear-screenshot002.jpg",
+          "alt": "screenshot",
+          "caption": "911 slider"
+        },
+        {
+          "src": "/assets/images/projects/osu/firstoftheyear-screenshot001.jpg",
+          "alt": "screenshot",
+          "caption": "Hand drawn Fubuki face, this was from the original video."
+        }
       ]
     },
     {
