@@ -4,24 +4,39 @@
   "title": "Skrillex – First Of The Year (Equinox) (Shirakami Fubuki Cover) [Koa%wer]",
   "subtitle": "Fully utilized Sliderator.",
   "heroImage": {
-    "src": "assets/images/projects/osu/xmas-title.webp",
+    "src": "assets/images/projects/osu/firstoftheyear-title.webp",
     "alt": "Project Screenshot",
-    "caption": "Play this on Christmas!"
+    "caption": "Call 911 now"
   },
   "tags": ["Accelerate Sliders"],
   "links": [
     {
       "title": "osu! Beatmap",
       "url": "https://osu.ppy.sh/beatmapsets/1086293"
+    },
+    {
+      "title": "Sliderator",
+      "url": "https://mappingtools.github.io/docs/tools/sliderator/"
     }
   ],
   "sections": [
     {
+      "type": "videos",
+      "title": "Videos",
+      "videos": [
+        {
+          "url": "https://www.youtube.com/watch?v=0_3fqyR2Fek",
+          "comment": "My friend played it :>",
+          "size": "full-width"
+        }
+      ]
+    },
+    {
       "type": "overview",
       "title": "Overview",
       "content": [
-        "Just a cheerful song I would like to share with friends, slider arts were just a little bit of twist. Very glad it turned out well.",
-        "Sliderator came out after this."
+        "I wanted to utilize Sliderator since it was new and interesting at the time. The 911 slider sure is one of the things that a human couldn't even bother to create by hand, so my goal is achieved.",
+        "Besides experimenting, I wanted players to actually be able to play instead of just showcasing fancy sliders."
       ]
     },
     {
@@ -30,7 +45,7 @@
       "features": [
         {
           "name": "Loved",
-          "description": "January 2024"
+          "description": "September 2022"
         }
       ]
     }
