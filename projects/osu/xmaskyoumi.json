@@ -1,0 +1,38 @@
+{
+  "id": "xmaskyoumi",
+  "category": "osu",
+  "title": "Camellia feat, Nanahira - I don't care about Christmas though",
+  "subtitle": "Integrated playable slider arts to spice up gameplay.",
+  "heroImage": {
+    "src": "assets/images/projects/osu/xmas-title.webp",
+    "alt": "Project Screenshot",
+    "caption": "Play this on Christmas!"
+  },
+  "tags": ["Slider arts"],
+  "links": [
+    {
+      "title": "osu! Beatmap",
+      "url": "https://osu.ppy.sh/beatmapsets/1086293"
+    }
+  ],
+  "sections": [
+    {
+      "type": "overview",
+      "title": "Overview",
+      "content": [
+        "Just a cheerful song I would like to share with friends, slider arts were just a little bit of twist. Very glad it turned out well.",
+        "Sliderator came out after this."
+      ]
+    },
+    {
+      "type": "features",
+      "title": "Status",
+      "features": [
+        {
+          "name": "Loved",
+          "description": "January 2024"
+        }
+      ]
+    }
+  ]
+}

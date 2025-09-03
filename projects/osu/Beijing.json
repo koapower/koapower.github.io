@@ -1,0 +1,37 @@
+{
+  "id": "Beijing",
+  "category": "osu",
+  "title": "All Stars - Beijing Welcomes You",
+  "subtitle": "A massive collab project with various Chinese mappers.",
+  "heroImage": {
+    "src": "assets/images/projects/osu/beijing-title.webp",
+    "alt": "Project Screenshot",
+    "caption": "My collab part."
+  },
+  "tags": ["Collab"],
+  "links": [
+    {
+      "title": "osu! Beatmap",
+      "url": "https://osu.ppy.sh/beatmapsets/1687673"
+    }
+  ],
+  "sections": [
+    {
+      "type": "overview",
+      "title": "Overview",
+      "content": [
+        "It was fun participating in a big project."
+      ]
+    },
+    {
+      "type": "features",
+      "title": "Status",
+      "features": [
+        {
+          "name": "Ranked",
+          "description": "March 2025"
+        }
+      ]
+    }
+  ]
+}

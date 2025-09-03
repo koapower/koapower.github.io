@@ -19,9 +19,9 @@
     {
       "name": "osu! Beatmaps",
       "projects": [
-        { "name": "All Stars - Beijing Welcomes You", "url": "project-detail.html?project=beijing" },
+        { "name": "All Stars - Beijing Welcomes You", "url": "project-detail.html?project=Beijing" },
         { "name": "Camellia feat. Nanahira – I don't care about Christmas though", "url": "project-detail.html?project=xmaskyoumi" },
-        { "name": "Skrillex – First Of The Year (Equinox) (Shirakami Fubuki Cover) [Koa%wer]", "url": "project-detail.html?project=firstoftheyear" },
+        { "name": "Skrillex – First Of The Year (Equinox) (Shirakami Fubuki Cover) [Koa%wer]", "url": "project-detail.html?project=First-Of-The-Year" },
         { "name": "Trysail – adrenaline!!!", "url": "project-detail.html?project=adrenaline" },
         { "name": "Erehamonika remixed by kors k - Der Wald [Koa%wer]", "url": "project-detail.html?project=derwald" }
       ]
