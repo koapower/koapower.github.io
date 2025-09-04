@@ -1,0 +1,83 @@
+{
+  "id": "adrenaline",
+  "category": "osu",
+  "title": "Trysail - adrenaline!!!",
+  "subtitle": "This is where the players get creative",
+  "heroImage": {
+    "src": "assets/images/projects/osu/adrenaline-title.webp",
+    "alt": "Project Screenshot",
+    "caption": "Just doing the laundries"
+  },
+  "tags": ["Creative ideas"],
+  "links": [
+    {
+      "title": "osu! Beatmap",
+      "url": "https://osu.ppy.sh/beatmapsets/639281#osu/1355907"
+    },
+    {
+      "title": "Laundry guide Made by fans (Google Doc)",
+      "url": "https://docs.google.com/document/d/1iO6BMlLVRS284xehchaokWu97i2LwKFbrukK7M3yl-E/edit?tab=t.0"
+    }
+  ],
+  "sections": [
+    {
+      "type": "videos",
+      "title": "Videos",
+      "videos": [
+        {
+          "url": "https://www.youtube.com/watch?v=Qmbnuj2yJcw",
+          "comment": "TheMagicAnimals is absolutely crazy, please check his play.",
+          "size": "full-width"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=EQY0OXFRY8Y",
+          "comment": "Binfy stream clip playing Koa%wer difficulty",
+          "size": "full-width"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=-oAcwsjmHKI",
+          "comment": "Karthy stream clip playing Koa%wer difficulty",
+          "size": "full-width"
+        }
+      ]
+    },
+    {
+      "type": "overview",
+      "title": "Overview",
+      "content": [
+        "This mapset consists of three maps, each has a different unique approach. Koa%wer introduced a new mapping idea to the world, Laundry made players went super creative after the map got a leaderboard."
+      ]
+    },
+    {
+      "type": "images",
+      "title": "Screenshots",
+      "images": [
+        {
+          "src": "/assets/images/projects/osu/adrenaline-1.jpg",
+          "alt": "screenshot",
+          "caption": "Laundry difficulty"
+        },
+        {
+          "src": "/assets/images/projects/osu/adrenaline-2.jpg",
+          "alt": "screenshot",
+          "caption": "Koa%wer difficulty"
+        },
+        {
+          "src": "/assets/images/projects/osu/adrenaline-3.jpg",
+          "alt": "screenshot",
+          "caption": "Hidden Slidertick difficulty"
+        }
+      ]
+    },
+    {
+      "type": "features",
+      "title": "Status",
+      "features": [
+        {
+          "name": "Loved",
+          "description": "September 2019"
+        }
+      ]
+    }
+  ]
+}
