@@ -12,8 +12,8 @@
     {
       "name": "Tools",
       "projects": [
-        { "name": "GoogleSheet Bulk Downloader", "url": "project-detail.html?project=googlesheet-downloader" },
-        { "name": "koaFish Twitchbot", "url": "project-detail.html?project=koafish" }
+        { "name": "GoogleSheet Bulk Downloader", "url": "project-detail.html?project=GoogleSheetBulkDownloader" },
+        { "name": "koaFish Twitchbot", "url": "project-detail.html?project=koafishTwitchBot" }
       ]
     },
     {

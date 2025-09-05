@@ -1,0 +1,55 @@
+{
+  "id": "GoogleSheetBulkDownloader",
+  "category": "tools",
+  "title": "GoogleSheet Bulk Downloader",
+  "subtitle": "Useful tool to download multiple google sheets to csv.",
+  "heroImage": {
+    "src": "assets/images/projects/tool/googlesheetdl-title.webp",
+    "alt": "Project Screenshot",
+    "caption": "Demo"
+  },
+  "tags": ["C#"],
+  "links": [
+    {
+      "title": "GitHub",
+      "url": "https://github.com/koapower/GoogleSheetBulkDownloader"
+    }
+  ],
+  "sections": [
+    {
+      "type": "overview",
+      "title": "Overview",
+      "content": [
+        "It is very common for game projects to have a lot of tables to fill, Google sheet is one of the most useful tool to use. This tool provides a convenient process to pull all the Google sheets you need as csvs.",
+        "Simple and useful."
+      ]
+    },
+    {
+      "type": "features",
+      "title": "Key Features",
+      "features": [
+        {
+          "name": "Multiple Google sheets to local csv files",
+          "description": "The whole purpose of the tool is to download multiple Google sheets as csv."
+        }
+      ]
+    },
+    {
+      "type": "development",
+      "title": "Common Usage",
+      "content": [
+        "I have made a simple menu item in Unity editor to call the downloader whenever the user needs to update their tables."
+      ],
+      "images": [
+        {
+          "src": "/assets/images/projects/tool/googlesheetdl-1.png",
+          "alt": "Usage 1"
+        },
+        {
+          "src": "/assets/images/projects/tool/googlesheetdl-2.png",
+          "alt": "Usage 2"
+        }
+      ]
+    }
+  ]
+}

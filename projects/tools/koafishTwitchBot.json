@@ -1,0 +1,49 @@
+{
+  "id": "koafishTwitchBot",
+  "category": "tools",
+  "title": "koafish Twitch Bot",
+  "subtitle": "A twitch bot specifically for osu streaming.",
+  "heroImage": {
+    "src": "assets/images/projects/tool/koafish-title.png",
+    "alt": "Project Screenshot",
+    "caption": "Demo"
+  },
+  "tags": ["C#", "Unity"],
+  "links": [
+    {
+      "title": "GitHub",
+      "url": "https://github.com/koapower/koafishTwitchBot"
+    }
+  ],
+  "sections": [
+    {
+      "type": "overview",
+      "title": "Overview",
+      "content": [
+        "osu viewers love to request map to streamers, so I made a bot to automatically download them, and send the map information directly through osu chat system."
+      ]
+    },
+    {
+      "type": "features",
+      "title": "Key Features",
+      "features": [
+        {
+          "name": "Download osu maps automatically from twitch chat",
+          "description": "This feature should be able to be modified but I just made it auto."
+        },
+        {
+          "name": "Now playing song",
+          "description": "!np is a very common command for osu players. Whenever they hear any song they like from the streamer, they can just type this in the chat."
+        },
+        {
+          "name": "Send map info via osu irc",
+          "description": "The streamer can just check the map request in game."
+        },
+        {
+          "name": "Extra UI interface",
+          "description": "Map queues will be shown in a window with green screen. Streamer can show the current queue to the stream."
+        }
+      ]
+    }
+  ]
+}
