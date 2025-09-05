@@ -1,0 +1,69 @@
+{
+  "id": "derwald",
+  "category": "osu",
+  "title": "Erehamonika remixed by kors k - Der Wald [Koa%wer]",
+  "subtitle": "Another experimental approach",
+  "heroImage": {
+    "src": "assets/images/projects/osu/derwald-title.webp",
+    "alt": "Project Screenshot",
+    "caption": "Streams but double the notes every position"
+  },
+  "tags": ["Collab"],
+  "links": [
+    {
+      "title": "osu! Beatmap",
+      "url": "https://osu.ppy.sh/beatmapsets/537048#osu/1529758"
+    }
+  ],
+  "sections": [
+    {
+      "type": "videos",
+      "title": "Videos",
+      "videos": [
+        {
+          "url": "https://www.youtube.com/watch?v=rmW22A7xFOY",
+          "comment": "Woey's live stream clip uploaded by cpol, he was using mods that give bonus points but also made the map more difficult.",
+          "size": "full-width"
+        }
+      ]
+    },
+    {
+      "type": "overview",
+      "title": "Overview",
+      "content": [
+        "This particular difficulty was made by me. The concept here was to overlapping notes without osu auto stack. The pattern looks very unique though there's a buggy slider that should be fixed."
+      ]
+    },
+    {
+      "type": "images",
+      "title": "Screenshots",
+      "images": [
+        {
+          "src": "/assets/images/projects/osu/derwald-1.jpg",
+          "alt": "screenshot",
+          "caption": "That slider"
+        },
+        {
+          "src": "/assets/images/projects/osu/derwald-2.jpg",
+          "alt": "screenshot",
+          "caption": "2 notes stream"
+        },
+        {
+          "src": "/assets/images/projects/osu/derwald-3.jpg",
+          "alt": "screenshot",
+          "caption": "2 notes stream but a bit further"
+        }
+      ]
+    },
+    {
+      "type": "features",
+      "title": "Status",
+      "features": [
+        {
+          "name": "Loved",
+          "description": "January 2018"
+        }
+      ]
+    }
+  ]
+}

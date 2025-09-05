@@ -25,19 +25,19 @@
       "title": "Videos",
       "videos": [
         {
-          "url": "https://www.youtube.com/watch?v=Qmbnuj2yJcw",
-          "comment": "TheMagicAnimals is absolutely crazy, please check his play.",
-          "size": "full-width"
-        },
-        {
           "url": "https://www.youtube.com/watch?v=EQY0OXFRY8Y",
           "comment": "Binfy stream clip playing Koa%wer difficulty",
           "size": "full-width"
         },
         {
+          "url": "https://www.youtube.com/watch?v=Qmbnuj2yJcw",
+          "comment": "TheMagicAnimals is absolutely crazy. Please click the link and check out the video.",
+          "size": "small"
+        },
+        {
           "url": "https://www.youtube.com/watch?v=-oAcwsjmHKI",
-          "comment": "Karthy stream clip playing Koa%wer difficulty",
-          "size": "full-width"
+          "comment": "Karthy live stream clip playing Koa%wer difficulty. Please click the link and check out the video.",
+          "size": "small"
         }
       ]
     },
@@ -45,7 +45,7 @@
       "type": "overview",
       "title": "Overview",
       "content": [
-        "This mapset consists of three maps, each has a different unique approach. Koa%wer introduced a new mapping idea to the world, Laundry made players went super creative after the map got a leaderboard."
+        "This mapset consists of three maps, each has a different unique approach. Koa%wer successfully introduced a new mapping idea to the world. This pushed the mapset to the Loved category. However, Laundry was the difficulty that made players went super creative after the map got a leaderboard."
       ]
     },
     {
