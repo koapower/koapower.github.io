@@ -25,11 +25,6 @@
       "title": "Videos",
       "videos": [
         {
-          "url": "https://www.youtube.com/watch?v=EQY0OXFRY8Y",
-          "comment": "Binfy stream clip playing Koa%wer difficulty",
-          "size": "full-width"
-        },
-        {
           "url": "https://www.youtube.com/watch?v=Qmbnuj2yJcw",
           "comment": "TheMagicAnimals is absolutely crazy",
           "size": "full-width"
@@ -37,6 +32,11 @@
         {
           "url": "https://www.youtube.com/watch?v=-oAcwsjmHKI",
           "comment": "Karthy live stream clip playing Koa%wer difficulty",
+          "size": "full-width"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=EQY0OXFRY8Y",
+          "comment": "Binfy stream clip playing Koa%wer difficulty",
           "size": "full-width"
         }
       ]
