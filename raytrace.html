@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Global Illumination - Koa's Portfolio</title>
+
+  <!-- favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/favicon/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/images/favicon/android-chrome-512x512.png">
+  <link rel="icon" href="/assets/images/favicon/favicon.ico" type="image/x-icon">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles/navbar.css">
+  <link rel="stylesheet" href="styles/raytrace.css">
+</head>
+<body>
+  <!-- 導航欄會由JavaScript動態載入 -->
+
+  <!-- 主要內容區域 -->
+  <main class="raytrace-content">
+    <div class="container">
+      <header class="page-header">
+        <h1>Setting the Scene</h1>
+        <p class="subtitle">Computer Graphics - Ray Tracing Implementation(not yet)</p>
+      </header>
+
+      <section class="raytrace-section">
+        <div class="image-container">
+          <img src="assets/images/raytrace/1.png" alt="Ray Tracing Result" class="raytrace-image">
+        </div>
+
+        <div class="description-container">
+          <h2>Assignment1</h2>
+          <p class="description-text">
+            <!-- 在這裡添加你的文字敘述 -->
+            Scene parameters:
+            Sphere1: size: 1.31, position: (-1.72, 2.139, -6.269)
+            Sphere2: size: 1.4, position: (-0.86, 0.917, -4.11)
+            Floor: size: 1, position: (0, 0, 0)
+            Light source: unity directional light ignores position, rotation (67.7, 0, 0)
+            Camera position: (-1.51, 1.96, -8.36), look at (0, 0, 1)
+          </p>
+
+          <div class="tech-stack">
+            <h3>Technologies Used</h3>
+            <div class="tech-tags">
+              <span class="tech-tag">Unity</span>
+              <span class="tech-tag">Ray Tracing</span>
+              <span class="tech-tag">Computer Graphics</span>
+            </div>
+          </div>
+
+          <div class="project-info">
+            <div class="info-item">
+              <span class="info-label">Course:</span>
+              <span class="info-value">Global Illumination</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Year:</span>
+              <span class="info-value">2026</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- JavaScript -->
+  <script src="scripts/navbar.js"></script>
+  <script type="module" src="scripts/BackToTop.js"></script>
+</body>
+</html>
