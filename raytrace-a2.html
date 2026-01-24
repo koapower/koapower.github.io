@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assignment 2 - Global Illumination</title>
+
+  <!-- favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/favicon/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/images/favicon/android-chrome-512x512.png">
+  <link rel="icon" href="/assets/images/favicon/favicon.ico" type="image/x-icon">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles/navbar.css">
+  <link rel="stylesheet" href="styles/raytrace-detail.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+</head>
+<body>
+  <!-- 導航欄會由JavaScript動態載入 -->
+
+  <!-- 主要內容區域 -->
+  <main class="assignment-content">
+    <div class="container">
+      <!-- 返回按鈕 -->
+      <nav class="assignment-nav top">
+        <a href="raytrace.html" class="nav-btn back-btn">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Back to Course Overview
+        </a>
+      </nav>
+
+      <header class="page-header">
+        <div class="assignment-meta">
+          <span class="assignment-number">Assignment 2</span>
+        </div>
+        <h1>Raytracing Framework</h1>
+        <p class="subtitle">Basic ray collision checking</p>
+      </header>
+
+      <!-- 圖片展示區 -->
+      <section class="images-gallery">
+        <div class="image-container">
+          <img src="assets/images/raytrace/a2-1.png" alt="Assignment 2 - Result 1" class="gallery-image">
+          <p class="image-caption">Ordinary camera position with an extra cylinder</p>
+        </div>
+        <div class="image-container">
+          <img src="assets/images/raytrace/a2-2.png" alt="Assignment 2 - Result 2" class="gallery-image">
+          <p class="image-caption">Alternative camera position</p>
+        </div>
+        <div class="image-container">
+          <img src="assets/images/raytrace/a2-3.gif" alt="Assignment 2 - Result 3" class="gallery-image">
+          <p class="image-caption">Real time rendering</p>
+        </div>
+      </section>
+
+      <!-- 實作說明 -->
+      <section class="assignment-section">
+        <h2>Implementation Overview</h2>
+        <div class="content-block">
+          <p>This assignment is basically just calculating ray intersections with all the triangles in the scene.</p>
+          <p>Compute shader in Unity is a practical way to implement the ray calculation parallelly in gpu. So it is pretty performant.</p>
+        </div>
+      </section>
+
+      <!-- 程式碼區塊 -->
+      <section class="assignment-section">
+        <h2>Ray Tracer Implementation</h2>
+        <div class="code-block">
+          <pre><code class="language-csharp">// Compute shader
+
+[numthreads(8,8,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    uint width, height;
+    Result.GetDimensions(width, height);
+    if (id.x >= width || id.y >= height)
+        return;
+    
+    // Calculate ray in Camera Space
+    float2 uv = float2((id.xy + 0.5) / float2(width, height) * 2.0 - 1.0);
+    
+    float3 rayOrigin = float3(0, 0, 0); // cam is at origin
+    float3 rayDirection = normalize(float3(uv.x * _AspectRatio, uv.y, -_FocalLength)); // shot ray through pixel, in -Z direction
+
+    // calculate intersection with triangles
+    bool hit = false;
+    float closestT = 1e30;
+    float3 hitObjectColor = float3(0, 0, 0);
+
+    for (int i = 0; i < _TriangleCount; i++)
+    {
+        // change triangle vertex from world space to camera space, this is not ideal but this can let the calculation be in camera space
+        float3 v0 = mul(_WorldToCamera, float4(_Triangles[i].v0, 1)).xyz;
+        float3 v1 = mul(_WorldToCamera, float4(_Triangles[i].v1, 1)).xyz;
+        float3 v2 = mul(_WorldToCamera, float4(_Triangles[i].v2, 1)).xyz;
+        float t = RayTriangleIntersect(rayOrigin, rayDirection, v0, v1, v2);
+        if (t > 0 && t < closestT)
+        {
+            closestT = t;
+            hitObjectColor = _Triangles[i].color;
+            hit = true;
+        }
+    }
+
+    // hit = object color, miss = black
+    Result[id.xy] = hit ? float4(hitObjectColor.xyz, 1) : float4(0, 0, 0, 1);
+}
+</code></pre>
+        </div>
+        <div class="content-block">
+          <p>Code explaination</p>
+          <ul>
+            <li>The calculation is done in camera space for simplicity.</li>
+            <li>Triangle vertices are transformed from world space to camera space. This can be optimized by just calculate all the things in world space, but for this assignment I want to keep it simple.</li>
+            <li>RayTriangleIntersect() returns a dot product.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 技術資訊 -->
+      <section class="assignment-section">
+        <h2>Technologies Used</h2>
+        <div class="tech-tags">
+          <span class="tech-tag">Unity</span>
+          <span class="tech-tag">C#</span>
+          <span class="tech-tag">Ray Tracing</span>
+          <span class="tech-tag">Computer Graphics</span>
+        </div>
+      </section>
+
+      <!-- 專案資訊 -->
+      <section class="assignment-section">
+        <div class="project-info">
+          <div class="info-item">
+            <span class="info-label">Course:</span>
+            <span class="info-value">Global Illumination</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Year:</span>
+            <span class="info-value">2026</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 底部導航 -->
+      <nav class="assignment-nav bottom">
+        <a href="raytrace-a1.html" class="nav-btn">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Previous Assignment
+        </a>
+        <a href="raytrace.html" class="nav-btn">
+          Back to Overview
+        </a>
+      </nav>
+    </div>
+  </main>
+
+  <!-- JavaScript -->
+  <script src="scripts/navbar.js"></script>
+  <script type="module" src="scripts/BackToTop.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</body>
+</html>

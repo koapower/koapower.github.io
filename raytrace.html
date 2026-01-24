@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Global Illumination - Koa's Portfolio</title>
+  <title>Global Illumination Course - Koa's Portfolio</title>
 
   <!-- favicon -->
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon/favicon-32x32.png">
@@ -24,47 +24,82 @@
   <main class="raytrace-content">
     <div class="container">
       <header class="page-header">
-        <h1>Setting the Scene</h1>
-        <p class="subtitle">Computer Graphics - Ray Tracing Implementation(not yet)</p>
+        <h1>Global Illumination</h1>
+        <p class="subtitle">Ray Tracing & Rendering Techniques - Course Assignments</p>
+        <div class="course-info">
+          <span class="course-meta">2026 Spring</span>
+          <span class="course-meta">Computer Graphics</span>
+        </div>
       </header>
 
-      <section class="raytrace-section">
-        <div class="image-container">
-          <img src="assets/images/raytrace/1.png" alt="Ray Tracing Result" class="raytrace-image">
-        </div>
+      <!-- 課程簡介 -->
+      <section class="course-intro">
+        <h2>Course Overview</h2>
+        <p>This course covers advanced rendering techniques including ray tracing, global illumination, and physically-based rendering. Below are the assignments completed throughout the semester.</p>
+      </section>
 
-        <div class="description-container">
-          <h2>Assignment1</h2>
-          <p class="description-text">
-            <!-- 在這裡添加你的文字敘述 -->
-            Scene parameters:
-            Sphere1: size: 1.31, position: (-1.72, 2.139, -6.269)
-            Sphere2: size: 1.4, position: (-0.86, 0.917, -4.11)
-            Floor: size: 1, position: (0, 0, 0)
-            Light source: unity directional light ignores position, rotation (67.7, 0, 0)
-            Camera position: (-1.51, 1.96, -8.36), look at (0, 0, 1)
-          </p>
-
-          <div class="tech-stack">
-            <h3>Technologies Used</h3>
-            <div class="tech-tags">
-              <span class="tech-tag">Unity</span>
-              <span class="tech-tag">Ray Tracing</span>
-              <span class="tech-tag">Computer Graphics</span>
+      <!-- 作業列表 -->
+      <section class="assignments-grid">
+        <!-- Assignment 1 -->
+        <article class="assignment-card">
+          <a href="raytrace-a1.html" class="card-link">
+            <div class="card-image">
+              <img src="assets/images/raytrace/1.png" alt="Assignment 1 - Setting the Scene">
+              <div class="card-overlay">
+                <span class="view-details">View Details →</span>
+              </div>
             </div>
+            <div class="card-content">
+              <div class="card-header">
+                <span class="assignment-number">Assignment 1</span>
+              </div>
+              <h3 class="card-title">Setting the Scene</h3>
+              <p class="card-description">Basic ray tracing scene setup with spheres and directional lighting.</p>
+              <div class="card-tags">
+                <span class="tag">Unity</span>
+                <span class="tag">Ray Tracing</span>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Assignment 2 -->
+        <article class="assignment-card">
+          <a href="raytrace-a2.html" class="card-link">
+            <div class="card-image">
+              <img src="assets/images/raytrace/2-1.png" alt="Assignment 2" onerror="this.src='assets/images/raytrace/1.png'">
+              <div class="card-overlay">
+                <span class="view-details">View Details →</span>
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="card-header">
+                <span class="assignment-number">Assignment 2</span>
+              </div>
+              <h3 class="card-title">Ray Tracer Implementation</h3>
+              <p class="card-description">Advanced ray tracer with reflection and lighting calculations.</p>
+              <div class="card-tags">
+                <span class="tag">Unity</span>
+                <span class="tag">C#</span>
+                <span class="tag">Ray Tracing</span>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <!-- 未來作業的佔位卡片（可以先註解掉） -->
+        <!--
+        <article class="assignment-card upcoming">
+          <div class="card-content">
+            <div class="card-header">
+              <span class="assignment-number">Assignment 3</span>
+              <span class="status-badge upcoming">Upcoming</span>
+            </div>
+            <h3 class="card-title">Coming Soon...</h3>
+            <p class="card-description">More assignments will be added as the course progresses.</p>
           </div>
-
-          <div class="project-info">
-            <div class="info-item">
-              <span class="info-label">Course:</span>
-              <span class="info-value">Global Illumination</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">Year:</span>
-              <span class="info-value">2026</span>
-            </div>
-          </div>
-        </div>
+        </article>
+        -->
       </section>
     </div>
   </main>
