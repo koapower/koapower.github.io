@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assignment 2 - Global Illumination</title>
+
+  <!-- favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/favicon/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/images/favicon/android-chrome-512x512.png">
+  <link rel="icon" href="/assets/images/favicon/favicon.ico" type="image/x-icon">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles/navbar.css">
+  <link rel="stylesheet" href="styles/raytrace-detail.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+</head>
+<body>
+  <!-- 導航欄會由JavaScript動態載入 -->
+
+  <!-- 主要內容區域 -->
+  <main class="assignment-content">
+    <div class="container">
+      <!-- 返回按鈕 -->
+      <nav class="assignment-nav top">
+        <a href="raytrace.html" class="nav-btn back-btn">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Back to Course Overview
+        </a>
+      </nav>
+
+      <header class="page-header">
+        <div class="assignment-meta">
+          <span class="assignment-number">Assignment 3</span>
+        </div>
+        <h1>Basic Shading</h1>
+        <p class="subtitle">Implementing illumination models</p>
+      </header>
+
+      <!-- 圖片展示區 -->
+      <section class="images-gallery">
+        <div class="image-container">
+          <img src="assets/images/raytrace/a3-1light.png" alt="Assignment 3 - Result 1" class="gallery-image">
+          <p class="image-caption">Phong shading with 1 light (ambient is yellow)</p>
+        </div>
+        <div class="image-container">
+          <img src="assets/images/raytrace/a3-2light.png" alt="Assignment 3 - Result 2" class="gallery-image">
+          <p class="image-caption">Phong shading with 2 lights</p>
+        </div>
+        <div class="image-container">
+          <img src="assets/images/raytrace/a3-phongblinn.png" alt="Assignment 3 - Result 3" class="gallery-image">
+          <p class="image-caption">Phong-Blinn shading</p>
+        </div>
+      </section>
+
+      <section class="assignment-section">
+        <h2>Ashikhmin-Shirley</h2>
+      </section>
+
+      <!-- 圖片展示區2 -->
+      <section class="images-gallery">
+        <div class="image-container">
+          <img src="assets/images/raytrace/a3-Ashikhmin-Shirley-nu10nv50.png" alt="Assignment 3 - Ashikhmin-Shirley 1" class="gallery-image">
+          <p class="image-caption">Rd=0, Rs=0.9, nu=10, nv=50</p>
+        </div>
+        <div class="image-container">
+          <img src="assets/images/raytrace/a3-Ashikhmin-Shirley-nu50nv50.png" alt="Assignment 3 - Ashikhmin-Shirley 2" class="gallery-image">
+          <p class="image-caption">Rd=0, Rs=0.9, nu=50, nv=50</p>
+        </div>
+        <div class="image-container">
+          <img src="assets/images/raytrace/a3-Ashikhmin-Shirley-nu10nv10.png" alt="Assignment 3 - Ashikhmin-Shirley 3" class="gallery-image">
+          <p class="image-caption">Rd=0, Rs=0.9, nu=10, nv=10</p>
+        </div>
+        <div class="image-container">
+          <img src="assets/images/raytrace/a3-Ashikhmin-Shirley-nu50nv10.png" alt="Assignment 3 - Ashikhmin-Shirley 4" class="gallery-image">
+          <p class="image-caption">Rd=0, Rs=0.9, nu=50, nv=10</p>
+        </div>
+        <div class="image-container">
+          <img src="assets/images/raytrace/a3-Ashikhmin-Shirley-diffuse.png" alt="Assignment 3 - Ashikhmin-Shirley 5" class="gallery-image">
+          <p class="image-caption">Rd=red, Rs=0.04, nu=50, nv=50</p>
+        </div>
+        <div class="image-container">
+          <img src="assets/images/raytrace/a3-Ashikhmin-Shirley-diffuse-supersampling.png" alt="Assignment 3 - Ashikhmin-Shirley 6" class="gallery-image">
+          <p class="image-caption">Rd=red, Rs=0.04, nu=50, nv=50, with super-sampling 2x2. I know it looks identical xd.</p>
+        </div>
+      </section>
+
+      <!-- 實作說明 -->
+      <section class="assignment-section">
+        <h2>Implementation Overview</h2>
+        <div class="content-block">
+          <p>Instead of returning random simple colors, we now implement Phong shading with multiple lights support.</p>
+          <p>Additionally rendered with Phong-Blinn, Ashikhmin-Shirley.</p>
+        </div>
+      </section>
+
+      <!-- 程式碼區塊 -->
+      <section class="assignment-section">
+        <h2>Ray Tracer Implementation</h2>
+        <div class="code-block">
+          <pre><code class="language-csharp">// Compute shader HLSL
+
+[numthreads(8, 8, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    uint width, height;
+    Result.GetDimensions(width, height);
+    if (id.x >= width || id.y >= height)
+        return;
+    
+    // Calculate ray in Camera Space
+    float2 uv = float2((id.xy + 0.5) / float2(width, height) * 2.0 - 1.0);
+    
+    float3 rayOrigin = float3(0, 0, 0); // cam is at origin
+    float3 rayDirection = normalize(float3(uv.x * _AspectRatio, uv.y, -_FocalLength)); // shot ray through pixel, in -Z direction
+
+    // calculate intersection with triangles
+    float closestT = 1e30;
+    int hitTriangleIndex = -1;
+    float3 hit_v0, hit_v1, hit_v2;
+
+    for (int i = 0; i < _TriangleCount; i++)
+    {
+        // change triangle vertex from world space to camera space, this is not ideal but this can let the calculation be in camera space
+        float3 v0 = mul(_WorldToCamera, float4(_Triangles[i].v0, 1)).xyz;
+        float3 v1 = mul(_WorldToCamera, float4(_Triangles[i].v1, 1)).xyz;
+        float3 v2 = mul(_WorldToCamera, float4(_Triangles[i].v2, 1)).xyz;
+        float t = RayTriangleIntersect(rayOrigin, rayDirection, v0, v1, v2);
+        if (t > 0.001 && t < closestT) //0.001 to avoid self-intersection
+        {
+            closestT = t;
+            hitTriangleIndex = i;
+            hit_v0 = v0;
+            hit_v1 = v1;
+            hit_v2 = v2;
+        }
+    }
+    
+    float3 irradiance = float3(0, 0, 0);
+    if (hitTriangleIndex != -1)
+    {
+        float3 hitPoint = rayOrigin + closestT * rayDirection;
+        
+        Triangle tri = _Triangles[hitTriangleIndex];
+        Material mat = _Materials[tri.materialIndex];
+
+        // normal
+        float3 N = normalize(cross(hit_v2 - hit_v0, hit_v1 - hit_v0));
+        
+        // view (hitpoint to cam)
+        float3 V = normalize(-rayDirection);
+
+        // phong ambient
+        irradiance = mat.ambient * mat.ka;
+
+        //multiple light sources
+        for (int j = 0; j < _LightCount; j++)
+        {
+            LightSource light = _LightSources[j];
+            float3 lightPos = mul(_WorldToCamera, float4(light.position, 1)).xyz;
+            float3 L = normalize(lightPos - hitPoint);
+            float directionCheck = dot(N, L);
+            if (directionCheck <= 0) //if the light is behind the surface, skip this light source
+                continue;
+            
+            float distToLight = length(lightPos - hitPoint);
+
+            // Shadow Ray
+            bool inShadow = false;
+            float3 shadowOrigin = hitPoint + N * 0.001; // avoid self-intersection => shadow acne
+            for (int k = 0; k < _TriangleCount; k++)
+            {
+                if (k == hitTriangleIndex)
+                    continue;
+                
+                //  transform to camera space
+                float3 sv0 = mul(_WorldToCamera, float4(_Triangles[k].v0, 1)).xyz;
+                float3 sv1 = mul(_WorldToCamera, float4(_Triangles[k].v1, 1)).xyz;
+                float3 sv2 = mul(_WorldToCamera, float4(_Triangles[k].v2, 1)).xyz;
+                float st = RayTriangleIntersect(shadowOrigin, L, sv0, sv1, sv2);
+                if (st > 0.001 && st < distToLight)
+                {
+                    inShadow = true;
+                    break;
+                }
+            }
+
+            if (!inShadow)
+            {
+                // Diffuse
+                float diff = max(dot(N, L), 0);
+                irradiance += mat.diffuse * diff * light.color * mat.kd;
+
+                // Specular (Phong)
+                float3 R = reflect(-L, N);
+                float spec = pow(max(dot(R, V), 0), mat.shininess);
+                irradiance += mat.specular * spec * light.color * mat.ks;
+            }
+        }
+    }
+    
+    Result[id.xy] = float4(irradiance, 1);
+}
+</code></pre>
+        </div>
+        <div class="content-block">
+          <p>Code explaination</p>
+          <ul>
+            <li>Check ray hit with the closest triangle. If hit, calculate irradiance with every light source.</li>
+            <li>This approach is pretty inefficient bacuse it for loops triangles several times. with 1 light source is 43fps, 2 light source drops to 30fps.</li>
+            <li>Be aware of the cross product for the normal, Left hand order or right hand order will cause different results.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 程式碼區塊2 -->
+      <section class="assignment-section">
+        <h2>Phong Blinn</h2>
+        <div class="code-block">
+          <pre><code class="language-csharp">// Compute shader HLSL
+
+// Specular (Phong-Blinn)
+float3 H = normalize(L + V);
+float spec = pow(max(dot(N, H), 0), mat.shininess);
+irradiance += mat.specular * spec * light.color * mat.ks;
+</code></pre>
+        </div>
+        <div class="content-block">
+          <p>Code explaination</p>
+          <ul>
+            <li>The only difference is specular lighting. Instead of using the reflection vector R, we use the half vector H (the average of L and V). Use N and H dot product.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 程式碼區塊3 -->
+      <section class="assignment-section">
+        <h2>Ashikhmin-Shirley</h2>
+        <div class="code-block">
+          <pre><code class="language-csharp">// Compute shader HLSL
+
+if (hitTriangleIndex != -1)
+{
+    float3 hitPoint = rayOrigin + closestT * rayDirection;
+    
+    Triangle tri = _Triangles[hitTriangleIndex];
+    Material mat = _Materials[tri.materialIndex];
+
+    // normal
+    float3 N = normalize(cross(hit_v2 - hit_v0, hit_v1 - hit_v0));
+    
+    // view (hitpoint to cam)
+    float3 V = normalize(-rayDirection); // k2
+
+    // phong ambient
+    irradiance = mat.ambient * mat.ka;
+
+    //multiple light sources
+    for (int j = 0; j < _LightCount; j++)
+    {
+        LightSource light = _LightSources[j];
+        float3 lightPos = mul(_WorldToCamera, float4(light.position, 1)).xyz;
+        float distToLight = length(lightPos - hitPoint);
+        float attenuation = 1.0 / (distToLight * distToLight);
+        float3 effectiveLight = light.color * light.intensity * attenuation;
+        
+        // prepare the vectors (V is prepared already)
+        float3 L = normalize(lightPos - hitPoint); // k1 facing the light source
+        float3 H = normalize(L + V); // k3 halfway vector
+        
+        // tangent space (N is prepared already)
+        float3 T = normalize(tri.tangent); // u
+        float3 B = cross(N, T); // v      
+        
+        // dot products
+        float dotNH = max(dot(N, H), 0.0001);
+        float dotNV = max(dot(N, V), 0.0001);
+        float dotNL = max(dot(N, L), 0.0001);
+        float dotHL = max(dot(H, L), 0.0001);
+        float dotHT = dot(H, T);
+        float dotHB = dot(H, B);
+        
+        // specular
+        float denom = 1.0 - dotNH * dotNH;
+        float exponent = (mat.nu * dotHT * dotHT + mat.nv * dotHB * dotHB) / max(denom, 0.0001);
+        float specNum = sqrt((mat.nu + 1) * (mat.nv + 1)) * pow(dotNH, exponent);
+        float specDen = 8.0 * 3.14159 * dotHL * max(dotNL, dotNV);
+        float specTerm = specNum / specDen;
+
+        // Fresnel
+        float3 F = mat.specular + (1.0 - mat.specular) * pow(1.0 - dotHL, 5);
+        float3 specularResult = F * specTerm;
+
+        // diffuse
+        float diffuseFactor = (1.0 - pow(1.0 - dotNL / 2.0, 5)) * (1.0 - pow(1.0 - dotNV / 2.0, 5));
+        float3 diffuseResult = (28.0 * mat.diffuse / (23.0 * 3.1415926)) * (1.0 - mat.specular) * diffuseFactor;
+        
+        // Shadow Ray
+        bool inShadow = false;
+        float3 shadowOrigin = hitPoint + N * 0.001; // avoid self-intersection => shadow acne
+        for (int k = 0; k < _TriangleCount; k++)
+        {
+            if (k == hitTriangleIndex)
+                continue;
+            
+            //  transform to camera space
+            float3 sv0 = mul(_WorldToCamera, float4(_Triangles[k].v0, 1)).xyz;
+            float3 sv1 = mul(_WorldToCamera, float4(_Triangles[k].v1, 1)).xyz;
+            float3 sv2 = mul(_WorldToCamera, float4(_Triangles[k].v2, 1)).xyz;
+            float st = RayTriangleIntersect(shadowOrigin, L, sv0, sv1, sv2);
+            if (st > 0.001 && st < distToLight)
+            {
+                inShadow = true;
+                break;
+            }
+        }
+
+        if (!inShadow)
+        {
+            irradiance += (specularResult + diffuseResult) * effectiveLight * dotNL;
+        }
+    }
+}
+</code></pre>
+        </div>
+        <div class="content-block">
+          <p>Code explaination</p>
+          <ul>
+            <li>Added light attenuation so it looks different from previous Phong and Phong-Blinn implementations.</li>
+            <li>Even without light attenuation, the lighting is more realistic and darker.</li>
+            <li>I was expecting to see high quality results but I guess the ray tracer still needs more work to achieve that.</li>
+            <li>fps performance is about the same as phong and phong-blinn</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 程式碼區塊4 -->
+      <section class="assignment-section">
+        <h2>Supersampling</h2>
+        <div class="code-block">
+          <pre><code class="language-csharp">// Compute shader HLSL
+
+float3 totalIrradiance = float3(0, 0, 0);
+//2x2 supersampling
+for (int x = 0; x < 2; x++)
+{
+    for (int y = 0; y < 2; y++)
+    {
+        float2 subPixelOffset = (float2(x, y) + 0.5) * 0.5; //0, 1 => 0.25, 0.75
+        float2 uv = float2((id.xy + subPixelOffset) / float2(width, height) * 2.0 - 1.0); // subPixelOffset was 0.5 without supersampling
+        // Calculate ray in Camera Space
+        float3 rayOrigin = float3(0, 0, 0); // cam is at origin
+        float3 rayDirection = normalize(float3(uv.x * _AspectRatio, uv.y, -_FocalLength)); // shot ray through pixel, in -Z direction
+        totalIrradiance += TraceRay(rayOrigin, rayDirection);
+    }
+}
+totalIrradiance /= 4;
+
+totalIrradiance = totalIrradiance / (totalIrradiance + float3(1, 1, 1)); // simple tone mapping
+Result[id.xy] = float4(totalIrradiance, 1);
+</code></pre>
+        </div>
+        <div class="content-block">
+          <p>Code explaination</p>
+          <ul>
+            <li>Added extra tone mapping</li>
+            <li>about 10 fps</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 技術資訊 -->
+      <section class="assignment-section">
+        <h2>Technologies Used</h2>
+        <div class="tech-tags">
+          <span class="tech-tag">Unity</span>
+          <span class="tech-tag">C#</span>
+          <span class="tech-tag">Ray Tracing</span>
+          <span class="tech-tag">Computer Graphics</span>
+        </div>
+      </section>
+
+      <!-- 專案資訊 -->
+      <section class="assignment-section">
+        <div class="project-info">
+          <div class="info-item">
+            <span class="info-label">Course:</span>
+            <span class="info-value">Global Illumination</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Year:</span>
+            <span class="info-value">2026</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 底部導航 -->
+      <nav class="assignment-nav bottom">
+        <a href="raytrace-a1.html" class="nav-btn">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Previous Assignment
+        </a>
+        <a href="raytrace.html" class="nav-btn">
+          Back to Overview
+        </a>
+      </nav>
+    </div>
+  </main>
+
+  <!-- JavaScript -->
+  <script src="scripts/navbar.js"></script>
+  <script type="module" src="scripts/BackToTop.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</body>
+</html>
