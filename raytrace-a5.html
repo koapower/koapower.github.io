@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assignment 2 - Global Illumination</title>
+
+  <!-- favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/favicon/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/images/favicon/android-chrome-512x512.png">
+  <link rel="icon" href="/assets/images/favicon/favicon.ico" type="image/x-icon">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles/navbar.css">
+  <link rel="stylesheet" href="styles/raytrace-detail.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+</head>
+<body>
+  <!-- 導航欄會由JavaScript動態載入 -->
+
+  <!-- 主要內容區域 -->
+  <main class="assignment-content">
+    <div class="container">
+      <!-- 返回按鈕 -->
+      <nav class="assignment-nav top">
+        <a href="raytrace.html" class="nav-btn back-btn">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Back to Course Overview
+        </a>
+      </nav>
+
+      <header class="page-header">
+        <div class="assignment-meta">
+          <span class="assignment-number">Assignment 5</span>
+        </div>
+        <h1>Recursive Ray Tracing – Reflection</h1>
+        <p class="subtitle">But I wrote it as iterative.</p>
+      </header>
+
+      <!-- 圖片展示區 -->
+      <section class="images-gallery">
+        <div class="image-container">
+          <img src="assets/images/raytrace/a5-kr1.png" alt="Assignment 5 - Result 1" class="gallery-image">
+          <p class="image-caption">kd=0 kr=1</p>
+        </div>
+        <div class="image-container">
+          <img src="assets/images/raytrace/a5-kd1.png" alt="Assignment 5 - Result 2" class="gallery-image">
+          <p class="image-caption">kd=1 kr=0</p>
+        </div>
+      </section>
+
+      <!-- 實作說明 -->
+      <section class="assignment-section">
+        <h2>It was supposed to be recursive</h2>
+        <div class="content-block">
+          <p>Unknown compile error happened, and it was fixed after I rewrite the function as iterative instead of recursive.</p>
+          <p>Unity compute shader attempts to flatten the recursive codes.</p>
+        </div>
+      </section>
+
+      <!-- 程式碼區塊 -->
+      <section class="assignment-section">
+        <h2>Reflection only</h2>
+        <div class="code-block">
+          <pre><code class="language-csharp">// Compute shader
+static const int MAX_BOUNCES = 6;
+
+//recursive attempt
+float3 Illuminate(float3 rayOrigin, float3 rayDirection, int depth)
+{
+    if (depth > MAX_BOUNCES)
+    {
+        return float3(0, 0, 0);
+    }
+    //intersections... shadow ray...
+
+    //recursive reflection
+    if (mat.kReflection > 0)
+    {
+        float3 R = reflect(rayDirection, rec.normal);
+        float3 reflectOrigin = rec.p + rec.normal * SHADOW_BIAS;
+        irradiance += mat.kReflection * Illuminate(reflectOrigin, R, depth + 1);
+    }
+    //kt = 0 for this checkpoint
+    return irradiance;
+}
+
+float3 TraceRay(float3 rayOrigin, float3 rayDirection)
+{
+    float3 irradiance = Illuminate(rayOrigin, rayDirection, 1);
+    return irradiance;
+}
+</code></pre>
+        </div>
+        <div class="code-block">
+          <pre><code class="language-csharp">// Compute shader
+//iterative attempt
+float3 TraceRay(float3 rayOrigin, float3 rayDirection)
+{
+    float3 currentOrigin = rayOrigin;
+    float3 currentDirection = rayDirection;
+    float3 throughput = float3(1, 1, 1);
+    float3 irradiance = float3(0, 0, 0);
+    for (int bounce = 0; bounce < MAX_BOUNCES; bounce++)
+    {
+        // calculate intersection with triangles
+        float closestT = 1e30;
+        int hitTriangleIndex = -1;
+        bool hit = FindClosestIntersect(currentOrigin, currentDirection, MAX_TRACE_DISTANCE, closestT, hitTriangleIndex);
+        
+        if (!hit || hitTriangleIndex == -1) // no hit
+        {
+            irradiance += throughput * float3(0.5, 0.7, 1.0); //blueish sky
+            break;
+        }
+        
+        Triangle tri = _Triangles[hitTriangleIndex];
+        Material mat = _Materials[tri.materialIndex];
+        float3 hitPos = currentOrigin + closestT * currentDirection;
+        float2 uv = GetInterpolatedUV(hitPos, tri);
+        // normal
+        //float3 geometricNormal = normalize(cross(tri.v1 - tri.v0, tri.v2 - tri.v0)); //not smoothed
+        float3 shadingNormal = GetSmoothNormal(hitPos, tri); //default using smoothed normal
+        
+        // view (hitpoint to cam)
+        float3 V = normalize(-currentDirection); // k2
+        irradiance += throughput * ComputeDirectLighting(hitPos, shadingNormal, V, mat, uv, tri);
+        
+        //reflection
+        if (mat.kReflection > 0)
+        {
+            currentDirection = reflect(currentDirection, shadingNormal);
+            currentOrigin = hitPos + shadingNormal * SHADOW_BIAS;
+            throughput *= mat.kReflection;
+        }
+        else
+        {
+            break;
+        }
+        //kt = 0 for this checkpoint     
+    }
+    
+    return irradiance;
+}
+</code></pre>
+        </div>
+
+        <div class="content-block">
+          <p>Code explaination</p>
+          <ul>
+            <li>Recursive attempt did not pass the compile phase and it is not shown in IDE. So I just abandon recursive and implemented it as iterative.</li>
+            <li>Refractive(kt) is not implemented in this phase.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="images-gallery">
+        <div class="image-container">
+          <img src="assets/images/raytrace/a5-kdkrhalf.png" alt="Assignment 5 - Result 3" class="gallery-image">
+          <p class="image-caption">kd=0.5 kr=0.5</p>
+        </div>
+        <div class="image-container">
+          <img src="assets/images/raytrace/a5-whittedproblem.png" alt="Assignment 5 - Result 4" class="gallery-image">
+          <p class="image-caption">Whitted limitation, cannot handle glossy reflection</p>
+        </div>
+        <div class="content-block">
+          <p>My observation</p>
+          <ul>
+            <li>It is noticable that if I set kd=0.5 and kr=0.5, the output looks weird.</li>
+            <li>The problem here is that the part that is supposed to be dark side shows reflected image but no diffuse color is shown.</li>
+          </ul>
+        </div>
+      </section>
+      <!-- 技術資訊 -->
+      <section class="assignment-section">
+        <h2>Technologies Used</h2>
+        <div class="tech-tags">
+          <span class="tech-tag">Unity</span>
+          <span class="tech-tag">C#</span>
+          <span class="tech-tag">Ray Tracing</span>
+          <span class="tech-tag">Computer Graphics</span>
+        </div>
+      </section>
+
+      <!-- 專案資訊 -->
+      <section class="assignment-section">
+        <div class="project-info">
+          <div class="info-item">
+            <span class="info-label">Course:</span>
+            <span class="info-value">Global Illumination</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Year:</span>
+            <span class="info-value">2026</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 底部導航 -->
+      <nav class="assignment-nav bottom">
+        <a href="raytrace-a1.html" class="nav-btn">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Previous Assignment
+        </a>
+        <a href="raytrace.html" class="nav-btn">
+          Back to Overview
+        </a>
+      </nav>
+    </div>
+  </main>
+
+  <!-- JavaScript -->
+  <script src="scripts/navbar.js"></script>
+  <script type="module" src="scripts/BackToTop.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</body>
+</html>
