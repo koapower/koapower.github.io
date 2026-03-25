@@ -173,6 +173,7 @@ float3 TraceRay(float3 rayOrigin, float3 rayDirection)
           <ul>
             <li>It is noticable that if I set kd=0.5 and kr=0.5, the output looks weird.</li>
             <li>The problem here is that the part that is supposed to be dark side shows reflected image but no diffuse color is shown.</li>
+            <li>kd is actually a part of the phong model which is the direct lighting, kr determines the indirect lightings.<il>
           </ul>
         </div>
       </section>
