@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Final Project - GPU Path Tracer with Caustics & Bloom</title>
+
+  <!-- favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/favicon/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/images/favicon/android-chrome-512x512.png">
+  <link rel="icon" href="/assets/images/favicon/favicon.ico" type="image/x-icon">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles/navbar.css">
+  <link rel="stylesheet" href="styles/raytrace-detail.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+</head>
+<body>
+
+  <main class="assignment-content">
+    <div class="container">
+      <!-- Back button -->
+      <nav class="assignment-nav top">
+        <a href="raytrace.html" class="nav-btn back-btn">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Back to Course Overview
+        </a>
+      </nav>
+
+      <header class="page-header">
+        <div class="assignment-meta">
+          <span class="assignment-number">Final Project</span>
+        </div>
+        <h1>GPU Path Tracer with Caustics and Bloom</h1>
+        <p class="subtitle">OpenGL 4.3 Compute Shader path tracer featuring photon-mapped caustics, bloom post-processing, and real-time interactive rendering</p>
+      </header>
+
+      <!-- Hero image -->
+      <section class="images-gallery">
+        <h2>Featured Render</h2>
+        <div class="image-container">
+          <img src="assets/images/raytrace/afinal-ring.png" alt="Final render - jewellery ring with diamonds" class="gallery-image">
+          <p class="image-caption">Diamond ring scene: 7 colored diamond gems on a metal band, rendered with path tracing, photon-mapped caustics, and bloom. 1024 SPP.</p>
+        </div>
+      </section>
+
+      <!-- Introduction -->
+      <section class="assignment-section">
+        <h2>Introduction</h2>
+        <div class="content-block">
+          <p>The goal of this project was to build a working GPU path tracer from scratch that could convincingly simulate two of the most visually striking optical phenomena: <strong>specular reflection</strong> and <strong>refraction</strong>. Beyond the core goals, we set two stretch targets: <strong>caustics</strong> and <strong>bloom</strong>.</p>
+          <p>To make the renderer interactive rather than a batch offline tool, all path tracing computation runs entirely on the GPU using <strong>OpenGL 4.3 Compute Shaders</strong>. This allows progressive rendering in a live window — accumulating samples over time — and real-time parameter adjustment through an ImGui control panel.</p>
+          <p>The scene is a jewellery ring set with seven small diamonds of different colors on a dark floor under an area light. It was chosen specifically because it exercises all implemented features: the metal band tests specular reflection, the diamonds test refraction and caustics, and the bright facets test bloom.</p>
+        </div>
+      </section>
+
+      <!-- Architecture -->
+      <section class="assignment-section">
+        <h2>Architecture</h2>
+        <div class="content-block">
+          <p>The system is split into two cooperating layers: a <strong>CPU layer</strong> (C++) that handles scene description, geometry processing, and GPU resource management, and a <strong>GPU layer</strong> (a single GLSL compute shader) that performs all light transport computation.</p>
+          <p>The compute shader implements three distinct passes selected by a <code>u_passMode</code> uniform:</p>
+          <ul>
+            <li><strong>Pass 1 — Photon Pass:</strong> traces photons from the light source through the scene to build a caustic buffer.</li>
+            <li><strong>Pass 0 — Path Trace Pass:</strong> casts a primary ray per pixel, evaluates the full path tracing integral (NEE + indirect bounces), and reads back caustic contributions.</li>
+            <li><strong>Pass 2 — Display Pass:</strong> applies bloom and tone mapping to the accumulated HDR buffer and writes to a display texture.</li>
+          </ul>
+        </div>
+        <div class="code-block">
+          <pre><code class="language-glsl">// Each frame: dispatch all three passes in sequence
+// Pass 1 — build caustic photon map
+glUniform1i(u_passMode, 1);
+glDispatchCompute(W/8, H/8, 1);
+glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
+
+// Pass 0 — path trace (uses caustic buffer)
+glUniform1i(u_passMode, 0);
+glDispatchCompute(W/8, H/8, 1);
+glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
+
+// Pass 2 — bloom + tone mapping
+glUniform1i(u_passMode, 2);
+glDispatchCompute(W/8, H/8, 1);
+glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);</code></pre>
+        </div>
+        <div class="content-block">
+          <p>Separating <code>outImage</code> (pure HDR radiance accumulation) from <code>displayImage</code> (post-processed) was a deliberate design decision: bloom is not physically part of the radiance integral and must not be baked into the accumulation buffer, otherwise it compounds across frames as the running average converges.</p>
+        </div>
+      </section>
+
+      <!-- BVH -->
+      <section class="assignment-section">
+        <h2>BVH Acceleration Structure</h2>
+        <div class="content-block">
+          <p>BVH construction uses the <strong>Surface Area Heuristic (SAH)</strong> with 12 buckets per split candidate. SAH chooses the split that minimises the expected traversal cost:</p>
+        </div>
+        <div class="code-block">
+          <pre><code class="language-glsl">cost = C_traversal + (SA_left / SA_parent) * N_left
+                   + (SA_right / SA_parent) * N_right</code></pre>
+        </div>
+        <div class="content-block">
+          <p>The resulting tree is flattened into two parallel arrays — <code>BVHNodeGPU[]</code> and reordered <code>TriangleGPU[]</code> — uploaded to SSBOs and indexed without pointer chasing.</p>
+          <p>BVH traversal in the shader uses an <strong>iterative, stack-based depth-first</strong> approach. The key optimisation is nearest-child ordering: before pushing both children onto the stack, both AABBs are tested to find which the ray enters first, then the farther child is pushed first so the closer child sits on top. This lets the traversal update the best intersection distance sooner, pruning more nodes via early AABB rejection.</p>
+        </div>
+        <div class="code-block">
+          <pre><code class="language-glsl">if (hitL && hitR) {
+    // push farther first so closer is popped first
+    if (tL < tR) { stack[ptr++] = rightChild; stack[ptr++] = leftChild; }
+    else         { stack[ptr++] = leftChild;  stack[ptr++] = rightChild; }
+}</code></pre>
+        </div>
+      </section>
+
+      <!-- Reflection and Refraction -->
+      <section class="assignment-section">
+        <h2>Reflection and Refraction</h2>
+        <div class="content-block">
+          <p>Material branching handles four cases:</p>
+          <ul>
+            <li><strong>Dielectrics</strong> (glass, diamonds): Fresnel reflectance <code>kr</code> is computed via the Schlick approximation. A random number stochastically selects between a reflected ray and a refracted ray. The IOR <code>u_ior</code> is a runtime uniform (default 2.417 for diamond). Total internal reflection is handled by checking whether <code>refract()</code> returns a degenerate vector.</li>
+            <li><strong>Metals:</strong> ideal reflection direction perturbed by a Phong lobe, modelling micro-facet roughness. Throughput is attenuated by a metallic F0 tint.</li>
+            <li><strong>Mirrors:</strong> perfect specular reflection, throughput scaled by Ks.</li>
+            <li><strong>Diffuse / Wood:</strong> cosine-weighted hemisphere sampling with Blinn-Phong BRDF.</li>
+          </ul>
+        </div>
+        <div class="code-block">
+          <pre><code class="language-glsl">float kr = fresnel(currDir, nl, u_ior);
+if (rand() < kr)
+    wi = reflect(currDir, nl);
+else {
+    float eta = into ? (1.0 / u_ior) : u_ior;
+    wi = refract(currDir, nl, eta);
+    if (length(wi) < 0.01) wi = reflect(currDir, nl); // TIR fallback
+}</code></pre>
+        </div>
+      </section>
+
+      <!-- NEE -->
+      <section class="assignment-section">
+        <h2>Direct Lighting — Next Event Estimation</h2>
+        <div class="content-block">
+          <p>Pure path tracing has high variance for scenes with small light sources. We mitigate this with <strong>Next Event Estimation (NEE)</strong>: at every diffuse bounce, we explicitly sample a point on the light source and evaluate the direct lighting contribution if the shadow ray is unoccluded.</p>
+          <p>Light sampling uses a <strong>precomputed area CDF</strong> uploaded at startup. Previously, this CDF was recomputed inside the shader on every <code>sampleLight()</code> call — an O(n) loop over all emissive triangles repeated for every bounce of every ray of every pixel of every frame. The current implementation precomputes the cumulative area on the CPU and reduces <code>sampleLight()</code> to a single binary search through the SSBO.</p>
+          <p>Shadow rays for non-opaque (dielectric) occluders use a <strong>multi-bounce shadow loop</strong>: if the shadow ray hits a dielectric surface, Beer-Lambert attenuation (tinted by the object's color) is applied and the shadow ray continues rather than immediately concluding occlusion. This produces coloured shadows through glass objects.</p>
+        </div>
+      </section>
+
+      <!-- Caustics -->
+      <section class="assignment-section">
+        <h2>Caustics via Photon Mapping</h2>
+        <div class="content-block">
+          <p>Standard path tracing cannot efficiently capture caustics — the probability of a camera ray finding the specific path <code>light → specular → specular → diffuse</code> through random sampling is extremely low. We address this with a <strong>forward photon pass</strong>.</p>
+          <p>In passMode 1, each pixel invocation launches <code>u_photonsPerPixel</code> photons (default 4) from the light surface. Each photon is traced forward through the scene:</p>
+          <ol>
+            <li>At dielectric surfaces, Fresnel determines reflection vs. refraction. Photon color accumulates Beer-Lambert tinting for colored glass.</li>
+            <li>When the photon lands on a diffuse surface after passing through at least one dielectric, it is projected back into screen space via <code>worldToPixel()</code> and <strong>splatted</strong> onto <code>causticImage</code> using a Gaussian kernel of radius 2.</li>
+          </ol>
+          <p>The splat uses perspective compensation — photons hitting geometry closer to the camera are spread over a smaller screen area than those hitting distant geometry, keeping visual density consistent.</p>
+          <p>In passMode 0, the path trace pass reads back the caustic buffer, applies a 3×3 box filter to reduce noise, lifts mid-tones with a power curve (<code>pow(caustic, 0.75)</code>), and adds the result to the radiance estimate.</p>
+        </div>
+      </section>
+
+      <!-- Caustics gallery -->
+      <section class="images-gallery">
+        <h2>Caustic Examples</h2>
+        <div class="image-container">
+          <img src="assets/images/raytrace/afinal-caustic-diamond.png" alt="Caustics through diamond" class="gallery-image">
+          <p class="image-caption">Caustics projected beneath the diamond ring — bright focal patterns formed by light refracting through the gem facets.</p>
+        </div>
+        <div class="image-container">
+          <img src="assets/images/raytrace/afinal-caustic-transparentsphere.png" alt="Caustics through transparent sphere" class="gallery-image">
+          <p class="image-caption">Caustic test with a transparent glass sphere — concentrated light spot on the floor beneath the sphere.</p>
+        </div>
+        <div class="image-container">
+          <img src="assets/images/raytrace/afinal-caustic-pool.png" alt="Caustics — pool pattern" class="gallery-image">
+          <p class="image-caption">Pool-style caustic pattern showing the dancing light focus typical of refractive surfaces over water or glass.</p>
+        </div>
+      </section>
+
+      <!-- Bloom -->
+      <section class="assignment-section">
+        <h2>Bloom Post-Processing</h2>
+        <div class="content-block">
+          <p>Bloom is implemented entirely in passMode 2 as a post-process on the already tone-mapped <code>outImage</code>, so it does not affect the physics of the accumulation.</p>
+          <p><code>computeGlow()</code> runs three layers:</p>
+          <ul>
+            <li><strong>Near bloom</strong> (radius 5): a Gaussian-weighted sum of high-luminance pixels close to the current pixel.</li>
+            <li><strong>Far bloom</strong> (radius 12): a wider, dimmer Gaussian for the broader glow halo.</li>
+            <li><strong>Star streaks</strong>: 8-directional line samples extending up to 8 pixels, creating the characteristic jewellery star-burst around bright facets.</li>
+          </ul>
+          <p>All three layers apply a <strong>diamond mask</strong> to prevent bloom from bleeding off non-specular surfaces. The mask is a per-pixel binary flag stored in the alpha channel of <code>outImage</code>, set to 1.0 wherever the primary ray first hits a dielectric surface. The mask is only computed via a ray cast on frame 0; subsequent frames reuse the stored alpha value, saving one full <code>intersectScene()</code> traversal per pixel per frame.</p>
+        </div>
+      </section>
+
+      <!-- Tone Mapping -->
+      <section class="assignment-section">
+        <h2>Tone Mapping</h2>
+        <div class="content-block">
+          <p>Three operators are available at runtime via the ImGui combo box, all applied before gamma encoding:</p>
+        </div>
+        <div class="code-block">
+          <pre><code class="language-glsl">// Linear
+vec3 mapped = clamp(hdr * u_exposure, 0.0, 1.0);
+
+// ACES Filmic (Narkowicz 2015)
+// x*(a*x+b) / (x*(c*x+d)+e)
+vec3 mapped = (x*(2.51*x+0.03)) / (x*(2.43*x+0.59)+0.14);
+
+// Reinhard
+vec3 mapped = x / (x + 1.0);</code></pre>
+        </div>
+        <div class="content-block">
+          <p>An <code>exposure</code> slider scales the HDR value before the operator, allowing independent control of brightness and contrast.</p>
+        </div>
+      </section>
+
+      <!-- Progressive rendering -->
+      <section class="assignment-section">
+        <h2>Progressive Rendering and Accumulation</h2>
+        <div class="content-block">
+          <p>Rather than rendering all samples in a single blocking dispatch, the renderer accumulates one sample per pixel per frame using a running average:</p>
+        </div>
+        <div class="code-block">
+          <pre><code class="language-glsl">accumulated = mix(accumulated, newSample, 1.0 / float(u_frame + 1));</code></pre>
+        </div>
+        <div class="content-block">
+          <p>This produces a live preview that converges toward ground truth as sample count increases. The target is 1024 SPP, after which the image is also saved to a PPM file. When any camera key is held or any ImGui parameter changes, the sample count resets to 0 so the image restarts cleanly.</p>
+        </div>
+      </section>
+
+      <!-- Technologies -->
+      <section class="assignment-section">
+        <h2>Technologies Used</h2>
+        <div class="tech-tags">
+          <span class="tech-tag">C++</span>
+          <span class="tech-tag">OpenGL 4.3</span>
+          <span class="tech-tag">GLSL Compute Shaders</span>
+          <span class="tech-tag">Path Tracing</span>
+          <span class="tech-tag">Photon Mapping</span>
+          <span class="tech-tag">BVH / SAH</span>
+          <span class="tech-tag">ImGui</span>
+          <span class="tech-tag">GLFW</span>
+        </div>
+      </section>
+
+      <!-- Project info -->
+      <section class="assignment-section">
+        <div class="project-info">
+          <div class="info-item">
+            <span class="info-label">Course:</span>
+            <span class="info-value">Global Illumination</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Year:</span>
+            <span class="info-value">2026</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom nav -->
+      <nav class="assignment-nav bottom">
+        <a href="raytrace-a7.html" class="nav-btn">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Previous: Assignment 7
+        </a>
+        <a href="raytrace.html" class="nav-btn">
+          Back to Overview
+        </a>
+      </nav>
+    </div>
+  </main>
+
+  <!-- JavaScript -->
+  <script src="scripts/navbar.js"></script>
+  <script type="module" src="scripts/BackToTop.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</body>
+</html>
